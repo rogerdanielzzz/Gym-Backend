@@ -7,6 +7,8 @@ const router = Router();
 const { validator } = require('./middleware/validatorMid');
 const { createUser, findUserByEmail, userActiveUpdater} = require('./controller/UserCrud');
 const { createGym,findGymByName,findGymByRif } = require('./controller/GymCrud');
+const { createTrainer,getAllTrainers,findTrainerbyId } = require('./controller/TrainerCrud');
+
 
 //User Crud
 router.post("/create",createUser )
@@ -17,6 +19,11 @@ router.put("/userupdater",userActiveUpdater)
 router.post("/creategym",createGym)
 router.get("/gymname",findGymByName)
 router.get("/gymrif",findGymByRif)
+
+//Trainer Crud
+router.post("/createtrainer",createTrainer)
+router.get("/findtrainer",findTrainerbyId)
+router.get("/gettrainers",getAllTrainers)
 
 
 

@@ -6,7 +6,9 @@ let createTrainer = async (req, res) => {
     // Encriptamos la contraseña
     let fnameCapitalized = toCapitalize(firstName)
     let lnameCapitalized = toCapitalize(lastName)
-    let rifParsed= parent(idNumber)
+    let idParsed= parseInt(idNumber)
+    let idTypeUpper = idType.toUpperCase()
+
     let rifUpper = gymRif.toUpperCase()
 
     try {
@@ -18,48 +20,63 @@ let createTrainer = async (req, res) => {
         })
 
         let trainer = await Trainer.create({
-            firstName: nameCapitalized,
-            rif: rifUpper,
-            cellphone
+            firstName: fnameCapitalized,
+           lastName: lnameCapitalized,
+           idNumber: idParsed,
+           idType: idTypeUpper
         })
 
-        await gym.setUser(user)
+        await trainer.setGym(gym)
 
-        res.status(201).json({ msg: gym })
+        res.status(201).json({ msg: trainer })
 
     } catch (err) {
-        res.status(500).json(err);
+        res.status(500).json({ err: err });
 
     }
 
 }
-let findGymByRif = (req, res) => {
-    const { rif } = req.body;
-    let rifUpper = rif.toUpperCase()
+let getAllTrainers = async (req, res) => {
+    const { gymRif } = req.body;
+    let rifUpper = gymRif?.toUpperCase()
     // Encuentra un usuario 
-    Gym.findOne({
-        where: {
-            rif: rifUpper
-        },
-        include: User
+   try {
+    let trainers= await Trainer.findAll({
+       
+        include:{
+            model:Gym,
+            where: {
+                rif: rifUpper
+            },
+        }
+    })
+        res.status(201).json({ trainers, })
+   } catch (err) {
+    res.status(500).json({ err: err });
+}
+   
+    
 
-    }).then((gym) => {
-        res.status(201).json({ gym: gym })
-    }).catch(err => {
-        res.status(500).json(err);
-    });
 }
 
-let findGymByName = (req, res) => {
-    const { name } = req.body;
-    let nameCapitalized = toCapitalize(name)
+let findTrainerbyId = (req, res) => {
+    const { gymRif, idNumber } = req.body;
+    let idParsed = parseInt(idNumber)
+
+    
+    let rifUpper = gymRif?.toUpperCase()
 
     // Encuentra un usuario 
-    Gym.findAll({
+    Trainer.findOne({
         where: {
-            name: nameCapitalized
+            idNumber: idParsed
         },
-        include: User
+        include: {
+            model:Gym,
+            where: {
+                rif: rifUpper
+            },
+        }
 
     }).then((gym) => {
         res.status(201).json({ gym: gym })
@@ -68,7 +85,7 @@ let findGymByName = (req, res) => {
     });
 }
 module.exports = {
-    createGym,
-    findGymByName,
-    findGymByRif
+    createTrainer,
+    getAllTrainers,
+    findTrainerbyId
 }

@@ -6,17 +6,16 @@ module.exports = (sequelize) => {
 		{
 			idNumber:{
 				type: DataTypes.INTEGER,
-				allowNull: false,   
+				allowNull: false, 
+				unique: true,
+
+				  
 			},
 			idType:{
 				type: DataTypes.STRING,
 				allowNull: false,
 
 			},
-			typeUse:{
-				type: DataTypes.STRING,
-			},
-		
 		
 			isActive:{
 				type: DataTypes.BOOLEAN,
