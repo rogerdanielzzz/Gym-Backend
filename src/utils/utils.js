@@ -20,7 +20,25 @@ let dateFormated = () => {
     return formattedDate
 }
 
+let monthAdder = (string, monthqty) => {
+
+    let dateArr = string.split("-");
+    dateArr[1] = ((dateArr[1] * 1) + monthqty);
+    while (dateArr[1] > 12) {
+        dateArr[1] = dateArr[1] - 12
+        dateArr[0] = (dateArr[0]*1) + 1
+    }
+    dateArr[1]=dateArr[1].toString()
+    dateArr[0]=dateArr[0].toString()
+
+    if (dateArr[1].length < 2) dateArr[1] = "0" + dateArr[1]
+
+    let formattedDate = dateArr.join("-")
+    return formattedDate
+}
+
 module.exports = {
     toCapitalize,
-    dateFormated
+    dateFormated,
+    monthAdder
 }

@@ -4,9 +4,9 @@ module.exports = (sequelize) => {
 	sequelize.define(
 		'sale',
 		{
-            isPaid:{
-				type: DataTypes.BOOLEAN,
-				defaultValue: false,
+            monthsPaid:{
+				type: DataTypes.INTEGER,
+				defaultValue: 1,
 			},
             description:{
 				type: DataTypes.TEXT,
@@ -28,10 +28,31 @@ module.exports = (sequelize) => {
 				defaultValue: 0,
 
 			},
+			year:{
+				type: DataTypes.INTEGER,
+				defaultValue: 2022,
+
+			},
+			month:{
+				type: DataTypes.INTEGER,
+				defaultValue: 11,
+
+			},
+			day:{
+				type: DataTypes.INTEGER,
+				defaultValue: 20,
+
+			},
+			hour:{
+				type: DataTypes.STRING,
+				defaultValue: "18:30",
+
+			},
+
 		
 			
 		},
-		{ timestamps: true, createdAt: 'Realizado', updatedAt: false }
+		{ timestamps: false, createdAt: 'Realizado', updatedAt: false }
 	);
 };
 //as

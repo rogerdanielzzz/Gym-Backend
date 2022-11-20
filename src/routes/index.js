@@ -9,6 +9,8 @@ const { createUser, findUserByEmail, userActiveUpdater} = require('./controller/
 const { createGym,findGymByName,findGymByRif } = require('./controller/GymCrud');
 const { createTrainer,getAllTrainers,findTrainerbyId } = require('./controller/TrainerCrud');
 const { createCostumer,getAllCostumers,findCostumerbyId } = require('./controller/CostumerCrud');
+const { inscription, renovation, saleReport} = require('./controller/SaleController');
+
 
 
 
@@ -31,6 +33,14 @@ router.get("/gettrainers",getAllTrainers)
 router.post("/createcostumer",createCostumer)
 router.get("/findcostumer",findCostumerbyId)
 router.get("/getcostumers",getAllCostumers)
+
+//Sale Creator
+router.post("/inscription",inscription)
+router.post("/renovation",renovation)
+
+//Sale Report
+router.get("/sales",saleReport)
+
 
 
 
