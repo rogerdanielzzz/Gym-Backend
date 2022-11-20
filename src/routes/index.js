@@ -8,6 +8,8 @@ const { validator } = require('./middleware/validatorMid');
 const { createUser, findUserByEmail, userActiveUpdater} = require('./controller/UserCrud');
 const { createGym,findGymByName,findGymByRif } = require('./controller/GymCrud');
 const { createTrainer,getAllTrainers,findTrainerbyId } = require('./controller/TrainerCrud');
+const { createCostumer,getAllCostumers,findCostumerbyId } = require('./controller/CostumerCrud');
+
 
 
 //User Crud
@@ -24,6 +26,13 @@ router.get("/gymrif",findGymByRif)
 router.post("/createtrainer",createTrainer)
 router.get("/findtrainer",findTrainerbyId)
 router.get("/gettrainers",getAllTrainers)
+
+//costumer Crud
+router.post("/createcostumer",createCostumer)
+router.get("/findcostumer",findCostumerbyId)
+router.get("/getcostumers",getAllCostumers)
+
+
 
 
 

@@ -7,24 +7,12 @@ module.exports = (sequelize) => {
 			idNumber:{
 				type: DataTypes.INTEGER,
 				allowNull: false,
+				unique:true
 			},
 			idType:{
 				type: DataTypes.STRING,
 				allowNull: false,
 
-			},
-			typeUse:{
-				type: DataTypes.STRING,
-				allowNull: false,
-			},
-		
-			hasVerifiedCellphone:{
-				type: DataTypes.BOOLEAN,
-				defaultValue: false,
-			},
-			registerApp:{
-				type: DataTypes.BOOLEAN,
-				defaultValue: false,
 			},
 			isActive:{
 				type: DataTypes.BOOLEAN,
@@ -42,12 +30,10 @@ module.exports = (sequelize) => {
 			},
 			cellphone:{
 				type: DataTypes.STRING,
-				allowNull: false,
 
 			},
 			address:{
 				type: DataTypes.TEXT,
-				allowNull: false,
 
 			},
 			birthDate:{
