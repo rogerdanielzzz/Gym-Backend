@@ -20,6 +20,23 @@ let dateFormated = () => {
     return formattedDate
 }
 
+let datewithHour = () => {
+
+    let date = new Date();
+
+    // Formatea fecha por separado
+    let year = date.toLocaleString("default", { year: "numeric" });
+    let month = date.toLocaleString("default", { month: "2-digit" });
+    let day = date.toLocaleString("default", { day: "2-digit" });
+    let hour = date.toLocaleString("default", { hour: '2-digit', minute: '2-digit' });
+
+
+    // genera un string año-mes-dia
+    let formattedDate = year + "-" + month + "-" + day+"-" + hour;;
+
+    return formattedDate
+}
+
 let monthAdder = (string, monthqty) => {
 
     let dateArr = string.split("-");
@@ -40,5 +57,6 @@ let monthAdder = (string, monthqty) => {
 module.exports = {
     toCapitalize,
     dateFormated,
-    monthAdder
+    monthAdder,
+    datewithHour
 }

@@ -1,6 +1,6 @@
 const { Gym, Costumer, Sale, Op } = require("../../db.js");
-const { dateFormated, monthAdder } = require("../../utils/utils");
-const { Sequelize } = require("sequelize");
+const { dateFormated, monthAdder, datewithHour } = require("../../utils/utils");
+const { query } = require("express");
 
 let inscription = async (req, res) => {
     const { idNumber, gymRif, description, amountUSD, amountBs, rate, monthsPaid } = req.body;
@@ -75,10 +75,9 @@ let renovation = async (req, res) => {
     let bsParsed = parseInt(amountBs);
     let rateParsed = parseInt(rate);
     let monthsPaidParsed = parseInt(monthsPaid);
-    let dateGetter = dateFormated()
+    let dateGetter = datewithHour()
     let dateArr = dateGetter.split("-")
-    let date = new Date();
-    let hour = `${date.getHours()}:${date.getMinutes()}`
+
 
     try {
         let gym = await Gym.findOne({
@@ -111,7 +110,7 @@ let renovation = async (req, res) => {
             year: dateArr[0],
             month: dateArr[1],
             day: dateArr[2],
-            hour: hour
+            hour: dateArr[3]
         });
 
         await sale.setGym(gym);
@@ -127,41 +126,64 @@ let renovation = async (req, res) => {
 
 
 let saleReport = async (req, res) => {
-    const { gymId, } = req.body;
-    let  searchParameters= {
-        gymId: gymId,
-        year: 2022,
- //       month: 11,
-//        day: 30,
-        hour:{
-            [Op.iLike]: "18%"
-        }
+    const { gymId, year, month, day } = req.body;
+    const { detailed, range, hour } = req.query
+    let rangeArr = range?.split(",")
+    // Detailed true return all the sales of a determined period, false return the amount of sale
+    //Hour must be string example "18:20 or 18 allway 24hs format"
+    // Range must be sent by query example range=month,1,3 is for a range from month january to March could be days or years
 
+    let searchParameters = { ...req.body }
+
+    if (rangeArr) {
+        searchParameters[rangeArr[0]] = {
+            [Op.gte]: rangeArr[1],
+            [Op.lte]: rangeArr[2]
+        }
     }
+
+    if (hour) {
+        searchParameters.hour = {
+            [Op.iLike]: `${hour}%`
+        }
+    }
+
 
 
     try {
 
         let report = await Sale.findAll({
-          where: searchParameters
+            where: searchParameters,
+            include: {
+                model: Costumer,
+                attributes: ["idNumber", "firstName", "lastName"]
+            }
         })
-        let total={
-            usd:0,
-            bs:0
+
+        if (!detailed || detailed === "false") {
+            let total = {
+                usd: 0,
+                bs: 0
+            }
+
+            report.forEach(element => {
+                total.usd = total.usd + element.amountUSD
+                total.bs = total.bs + element.amountBs
+
+            });
+
+            res.status(201).json({ msg: total });
+
+
+        } else {
+            res.status(201).json({ msg: report });
         }
-        
-        report.forEach(element => {
-            total.usd= total.usd+element.amountUSD
-            total.bs= total.bs+element.amountBs
-
-        });
-
-        res.status(201).json({ msg: total });
     } catch (e) {
         console.log(e)
         res.status(500).json({ err: e });
     }
 };
+
 
 
 
