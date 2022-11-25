@@ -38,15 +38,14 @@ let createCostumer = async (req, res) => {
 
 }
 let getAllCostumers = async (req, res) => {
-    const { gymRif } = req.body;
-    let rifUpper = gymRif?.toUpperCase()
+    const { gymId } = req.params;
     try {
         let costumer = await Costumer.findAll({
 
             include: {
                 model: Gym,
                 where: {
-                    rif: rifUpper
+                    id: gymId
                 },
             }
         })

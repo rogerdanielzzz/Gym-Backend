@@ -42,7 +42,13 @@ module.exports = (sequelize) => {
 			expire:{
 				type: DataTypes.DATEONLY,
 				allowNull:false
-			}
+			},
+			email: {
+				type: DataTypes.STRING,
+				validate: {
+					isEmail: true,
+				},
+			},
 		
 			
 		},
