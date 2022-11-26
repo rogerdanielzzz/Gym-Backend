@@ -80,7 +80,7 @@ let singIn = (req, res) => {
     User.findOne({
         where: {
             email: emailLower
-        }
+        },include: Gym
     }).then(user => {
 
     
