@@ -1,7 +1,11 @@
 const { User, Gym } = require("../../db.js");
 const { toCapitalize } = require("../../utils/utils");
 const bcrypt = require("bcrypt");
-const { encryptRounds} = process.env;
+const jwt = require("jsonwebtoken");
+
+const { encryptKey,
+    encryptRounds,
+    encryptExpiration} = process.env;
 
 let createUser = (req, res) => {
     const { name, lastname, email, password, birthDate, cellphone, address } = req.body;
@@ -23,7 +27,12 @@ let createUser = (req, res) => {
         address,
         
     }).then((user)=>{
-        res.status(201).json({user: user})
+
+        let token = jwt.sign({ user: user }, encryptKey, {
+            expiresIn: encryptExpiration
+        });
+
+        res.status(201).json({user, token,})
     }).catch(err => {
         res.status(500).json(err);
     });
@@ -63,8 +72,50 @@ let userActiveUpdater = async (req, res) => {
    
 
 }
+let singIn = (req, res) => {
+    let { email, password } = req.body;
+    let emailLower = email.toLowerCase()
+
+    // Buscar usuario
+    User.findOne({
+        where: {
+            email: emailLower
+        }
+    }).then(user => {
+
+    
+            if (!user) {
+                res.status(200).json({ msg: "User not found" });
+            } else {
+                // Verificar contraseña
+                if (bcrypt.compareSync(password, user.password)) {
+    
+                    // Creamos el token
+                    let token = jwt.sign({ user: user }, encryptKey, {
+                        expiresIn: encryptExpiration
+                    });
+    
+                    res.json({
+                        user: user,
+                        token: token
+                    })
+    
+                } else {
+                    // Unauthorized Access
+                    res.status(200).json({ msg: "Password incorrect" })
+                }
+        }
+     
+    }).catch(err => {
+        res.status(500).json(err);
+    })
+}
+
+
+
 module.exports = {
     createUser,
     findUserByEmail,
-    userActiveUpdater
+    userActiveUpdater,
+    singIn
 }
