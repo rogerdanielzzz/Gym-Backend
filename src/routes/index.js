@@ -15,7 +15,7 @@ const { inscription, renovation, saleReport} = require('./controller/SaleControl
 
 
 //User Crud
-router.post("/singup",createUser )
+router.post("/signup",createUser )
 router.get("/finduser",findUserByEmail)
 router.put("/userupdater",userActiveUpdater)
 
