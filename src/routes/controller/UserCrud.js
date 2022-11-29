@@ -85,7 +85,7 @@ let singIn = (req, res) => {
 
     
             if (!user) {
-                res.status(200).json({ msg: "User not found" });
+                res.status(200).json({ msg: "Email no existe" });
             } else {
                 // Verificar contraseña
                 if (bcrypt.compareSync(password, user.password)) {
@@ -102,7 +102,7 @@ let singIn = (req, res) => {
     
                 } else {
                     // Unauthorized Access
-                    res.status(200).json({ msg: "Password incorrect" })
+                    res.status(200).json({ msg: "Contraseña incorrecta" })
                 }
         }
      
