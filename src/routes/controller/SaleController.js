@@ -3,9 +3,8 @@ const { dateFormated, monthAdder, datewithHour } = require("../../utils/utils");
 const { query } = require("express");
 
 let inscription = async (req, res) => {
-    const { idNumber, gymRif, description, amountUSD, amountBs, rate, monthsPaid } = req.body;
+    const { idNumber, gymId, description, amountUSD, amountBs, rate, monthsPaid } = req.body;
     // Encriptamos la contraseña
-    let rifUpper = gymRif.toUpperCase();
     let idParsed = parseInt(idNumber);
     let usdParsed = parseInt(amountUSD);
     let bsParsed = parseInt(amountBs);
@@ -21,7 +20,7 @@ let inscription = async (req, res) => {
     try {
         let gym = await Gym.findOne({
             where: {
-                rif: rifUpper,
+                id: gymId,
             },
         });
 
@@ -67,9 +66,8 @@ let inscription = async (req, res) => {
 
 
 let renovation = async (req, res) => {
-    const { idNumber, gymRif, description, amountUSD, amountBs, rate, monthsPaid } = req.body;
+    const { idNumber, gymId, description, amountUSD, amountBs, rate, monthsPaid } = req.body;
     // Encriptamos la contraseña
-    let rifUpper = gymRif.toUpperCase();
     let idParsed = parseInt(idNumber);
     let usdParsed = parseInt(amountUSD);
     let bsParsed = parseInt(amountBs);
@@ -82,7 +80,7 @@ let renovation = async (req, res) => {
     try {
         let gym = await Gym.findOne({
             where: {
-                rif: rifUpper,
+                id: gymId,
             },
         });
 

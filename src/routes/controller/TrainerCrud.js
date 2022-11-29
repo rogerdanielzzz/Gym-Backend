@@ -2,20 +2,19 @@ const { Gym, User, Trainer } = require("../../db.js");
 const { toCapitalize } = require("../../utils/utils");
 
 let createTrainer = async (req, res) => {
-    const {firstName ,lastName ,idNumber ,idType, gymRif } = req.body;
+    const {firstName ,lastName ,idNumber ,idType, gymId } = req.body;
     // Encriptamos la contraseña
     let fnameCapitalized = toCapitalize(firstName)
     let lnameCapitalized = toCapitalize(lastName)
     let idParsed= parseInt(idNumber)
     let idTypeUpper = idType.toUpperCase()
 
-    let rifUpper = gymRif.toUpperCase()
 
     try {
 
         let gym = await Gym.findOne({
             where: {
-                rif: rifUpper
+                id: gymId
             }
         })
 
@@ -37,8 +36,7 @@ let createTrainer = async (req, res) => {
 
 }
 let getAllTrainers = async (req, res) => {
-    const { gymRif } = req.body;
-    let rifUpper = gymRif?.toUpperCase()
+    const { gymId } = req.body;
     // Encuentra un usuario 
    try {
     let trainers= await Trainer.findAll({
@@ -46,7 +44,7 @@ let getAllTrainers = async (req, res) => {
         include:{
             model:Gym,
             where: {
-                rif: rifUpper
+                id: gymId
             },
         }
     })
@@ -60,11 +58,10 @@ let getAllTrainers = async (req, res) => {
 }
 
 let findTrainerbyId = (req, res) => {
-    const { gymRif, idNumber } = req.body;
+    const { gymId, idNumber } = req.body;
     let idParsed = parseInt(idNumber)
 
     
-    let rifUpper = gymRif?.toUpperCase()
 
     // Encuentra un usuario 
     Trainer.findOne({
@@ -74,7 +71,7 @@ let findTrainerbyId = (req, res) => {
         include: {
             model:Gym,
             where: {
-                rif: rifUpper
+                id: gymId
             },
         }
 

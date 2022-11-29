@@ -2,18 +2,17 @@ const { Gym, Costumer } = require("../../db.js");
 const { toCapitalize, dateFormated } = require("../../utils/utils");
 
 let createCostumer = async (req, res) => {
-    const { firstName, lastName, idNumber, idType, gymRif } = req.body;
+    const { firstName, lastName, idNumber, idType, gymId } = req.body;
     let fnameCapitalized = toCapitalize(firstName)
     let lnameCapitalized = toCapitalize(lastName)
     let idParsed = parseInt(idNumber)
     let idTypeUpper = idType.toUpperCase()
-    let rifUpper = gymRif.toUpperCase()
     let expire = dateFormated()
 
     try {
         let gym = await Gym.findOne({
             where: {
-                rif: rifUpper
+                id: gymId
             }
         })
 
@@ -59,10 +58,9 @@ let getAllCostumers = async (req, res) => {
 }
 
 let findCostumerbyId = (req, res) => {
-    const { gymRif, idNumber } = req.body;
+    const { gymId, idNumber } = req.body;
 
     let idParsed = parseInt(idNumber)
-    let rifUpper = gymRif?.toUpperCase()
 
     // Encuentra un usuario 
     Costumer.findOne({
@@ -72,7 +70,7 @@ let findCostumerbyId = (req, res) => {
         include: {
             model: Gym,
             where: {
-                rif: rifUpper
+                id: gymId
             },
         }
 
