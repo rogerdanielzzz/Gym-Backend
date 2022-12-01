@@ -13,7 +13,7 @@ let createGym = async (req, res) => {
         let user = await User.findOne({
             where: {
                 email: emailLower
-            }
+            },include: Gym
         })
 
         let gym = await Gym.create({
@@ -27,7 +27,7 @@ let createGym = async (req, res) => {
         res.status(201).json({ msg: user })
 
     } catch (err) {
-        res.status(500).json(err);
+        res.status(203).json(err);
 
     }
 
