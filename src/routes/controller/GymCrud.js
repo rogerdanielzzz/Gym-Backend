@@ -24,7 +24,7 @@ let createGym = async (req, res) => {
 
         await gym.setUser(user)
 
-        res.status(201).json({ msg: gym })
+        res.status(201).json({ msg: user })
 
     } catch (err) {
         res.status(500).json(err);
