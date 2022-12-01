@@ -34,7 +34,7 @@ let createGym = async (req, res) => {
     
     
             res.status(201).json({ user: userGym })
-          }, "200")
+          }, "2000")
 
       
 
