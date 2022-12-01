@@ -2,10 +2,9 @@ const { Gym, User, Trainer } = require("../../db.js");
 const { toCapitalize } = require("../../utils/utils");
 
 let createTrainer = async (req, res) => {
-    const {firstName ,lastName ,idNumber ,idType, gymId } = req.body;
+    const {name  ,idNumber ,idType, gymId } = req.body;
     // Encriptamos la contraseña
-    let fnameCapitalized = toCapitalize(firstName)
-    let lnameCapitalized = toCapitalize(lastName)
+    let fnameCapitalized = toCapitalize(name)
     let idParsed= parseInt(idNumber)
     let idTypeUpper = idType.toUpperCase()
 
@@ -19,8 +18,7 @@ let createTrainer = async (req, res) => {
         })
 
         let trainer = await Trainer.create({
-            firstName: fnameCapitalized,
-           lastName: lnameCapitalized,
+            fullname: fnameCapitalized,
            idNumber: idParsed,
            idType: idTypeUpper
         })

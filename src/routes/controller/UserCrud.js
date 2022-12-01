@@ -8,18 +8,16 @@ const { encryptKey,
     encryptExpiration} = process.env;
 
 let createUser = (req, res) => {
-    const { name, lastname, email, password, birthDate, cellphone, address } = req.body;
+    const { name, email, password, birthDate, cellphone, address } = req.body;
     // Encriptamos la contraseña
     let passwordEncrypt = bcrypt.hashSync(password, Number.parseInt(encryptRounds));
     let nameCapitalized = toCapitalize(name)
-    let lastNameCapitalized = toCapitalize(lastname)
     let emailLower = email.toLowerCase()
 
     // Crear un usuario
     User.create({
 
-        name: nameCapitalized,
-        lastname: lastNameCapitalized,
+        fullname:nameCapitalized ,
         email: emailLower,
         password: passwordEncrypt,
         birthDate,
