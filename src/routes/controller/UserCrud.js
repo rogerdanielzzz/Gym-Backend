@@ -37,7 +37,7 @@ let createUser = (req, res) => {
 
 }
 let findUserByEmail = (req, res) => {
-    const {email} = req.body;
+    const {email} = req.params;
 
     let emailLower = email.toLowerCase()
 

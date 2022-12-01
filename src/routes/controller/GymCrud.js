@@ -25,7 +25,7 @@ let createGym = async (req, res) => {
         await gym.setUser(user)
 
 
-        setTimeout(async() => {
+      
             let userGym = await User.findOne({
                 where: {
                     email: emailLower
@@ -34,8 +34,7 @@ let createGym = async (req, res) => {
     
     
             res.status(201).json({ user: userGym })
-          }, "2000")
-
+       
       
 
     } catch (err) {
