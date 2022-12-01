@@ -3,12 +3,12 @@ const { dateFormated, monthAdder, datewithHour } = require("../../utils/utils");
 const { query } = require("express");
 
 let inscription = async (req, res) => {
-    const { idNumber, gymId, description, amountUSD, amountBs, rate, monthsPaid } = req.body;
+    const { idNumber, gymId, description, amountUSD, amountBs, monthsPaid } = req.body;
     // Encriptamos la contraseña
     let idParsed = parseInt(idNumber);
     let usdParsed = parseInt(amountUSD);
     let bsParsed = parseInt(amountBs);
-    let rateParsed = parseInt(rate);
+  //  let rateParsed = parseInt(rate);
     let monthsPaidParsed = parseInt(monthsPaid);
     let dateGetter = dateFormated()
     let expireToUpdate = monthAdder(dateGetter, monthsPaidParsed)
@@ -42,7 +42,7 @@ let inscription = async (req, res) => {
             description,
             amountUSD: usdParsed,
             amountBs: bsParsed,
-            rate: rateParsed,
+        //    rate: rateParsed,
             monthsPaid: monthsPaidParsed,
             year: dateArr[0],
             month: dateArr[1],
@@ -154,7 +154,7 @@ let saleReport = async (req, res) => {
             where: searchParameters,
             include: {
                 model: Costumer,
-                attributes: ["idNumber", "firstName", "lastName"]
+                attributes: ["idNumber", "fullname",]
             }
         })
 
