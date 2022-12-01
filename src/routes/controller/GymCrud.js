@@ -2,7 +2,7 @@ const { Gym, User } = require("../../db.js");
 const { toCapitalize } = require("../../utils/utils");
 
 let createGym = async (req, res) => {
-    const { name, rif, cellphone, userEmail } = req.body;
+    const { name, rif, userEmail } = req.body;
     // Encriptamos la contraseña
     let nameCapitalized = toCapitalize(name)
     let emailLower = userEmail.toLowerCase()
@@ -19,7 +19,7 @@ let createGym = async (req, res) => {
         let gym = await Gym.create({
             name: nameCapitalized,
             rif: rifUpper,
-            cellphone
+          
         })
 
         await gym.setUser(user)

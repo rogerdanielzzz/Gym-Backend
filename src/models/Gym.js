@@ -15,10 +15,8 @@ module.exports = (sequelize) => {
 				allowNull: false,
 				unique: true,
 			},
-			cellphone:{
-				type: DataTypes.STRING,
-			}
 			
+		
 			
 		},
 		{ timestamps: true, createdAt: 'creado', updatedAt: false }
