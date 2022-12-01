@@ -21,15 +21,9 @@ module.exports = (sequelize) => {
 				type: DataTypes.BOOLEAN,
 				defaultValue: false,
 			},
-			firstName:{
+			fullname: {
 				type: DataTypes.STRING,
 				allowNull: false,
-
-			},
-			lastName:{
-				type: DataTypes.STRING,
-				allowNull: false,
-
 			},
 			cellphone:{
 				type: DataTypes.STRING,
