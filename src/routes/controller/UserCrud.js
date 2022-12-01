@@ -32,7 +32,7 @@ let createUser = (req, res) => {
 
         res.status(201).json({user, token,})
     }).catch(err => {
-        res.status(500).json({msg: err});
+        res.status(200).json({msg: err});
     });
 
 }
