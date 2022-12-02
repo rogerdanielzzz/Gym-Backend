@@ -2,8 +2,8 @@ const { Gym, Costumer } = require("../../db.js");
 const { toCapitalize, dateFormated } = require("../../utils/utils");
 
 let createCostumer = async (req, res) => {
-    const { name, idNumber, idType, gymId,birthdate,cellphone, preNumber} = req.body;
-    let fnameCapitalized = toCapitalize(name)
+    const { fullname, idNumber, idType, gymId,birthdate,cellphone, preNumber} = req.body;
+    let fnameCapitalized = toCapitalize(fullname)
     let idParsed = parseInt(idNumber)
     let idTypeUpper = idType.toUpperCase()
     let expire = dateFormated()
