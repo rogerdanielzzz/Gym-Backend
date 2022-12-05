@@ -1,13 +1,13 @@
-const { Gym, Costumer, Sale, Op } = require("../../db.js");
+const { Gym, Costumer, Sale, Op, Payment, Paidamount } = require("../../db.js");
 const { dateFormated, monthAdder, datewithHour } = require("../../utils/utils");
-const { query } = require("express");
 
 let inscription = async (req, res) => {
-    const { idNumber, gymId, description, amountUSD, amountBs, monthsPaid } = req.body;
-    // Encriptamos la contraseña
+    const { idNumber, gymId, description,mustAmount , monthsPaid, arrPayment } = req.body;
+    // Encriptamos la contraseña [{id:1, ammount: 20}]
+   // arrPayment debe ser un array de objetos con el monto y payment id 
+
     let idParsed = parseInt(idNumber);
-    let usdParsed = parseInt(amountUSD);
-    let bsParsed = parseInt(amountBs);
+    let ammountParsed = parseInt(mustAmount);
   //  let rateParsed = parseInt(rate);
     let monthsPaidParsed = parseInt(monthsPaid);
     let dateGetter = dateFormated()
@@ -38,23 +38,36 @@ let inscription = async (req, res) => {
             });
 
         let sale = await Sale.create({
-            isPaid: true,
+     //       isPaid: true,
             description,
-            amountUSD: usdParsed,
-            amountBs: bsParsed,
+            mustAmount: ammountParsed,
         //    rate: rateParsed,
             monthsPaid: monthsPaidParsed,
             year: dateArr[0],
             month: dateArr[1],
             day: dateArr[2],
             hour: hour
-
-
-
         });
 
         await sale.setGym(gym);
         await sale.setCostumer(costumer);
+
+        arrPayment.forEach(async (element) => {
+           
+            let payment = await Payment.findOne({
+                where: {
+                    id:  element.id,
+                },
+            });
+
+            let paycheck = await Paidamount.create({
+                    amount: element.amount
+                   });
+
+                   await paycheck.setPayment(payment);
+                   await paycheck.setSale(sale);
+
+        });
 
 
 

@@ -13,16 +13,12 @@ module.exports = (sequelize) => {
 				allowNull: false,
 
 			},
-            amountUSD:{
+            mustAmount:{
 				type: DataTypes.INTEGER,
 				defaultValue: 0,
 
 			},
-            amountBs:{
-				type: DataTypes.INTEGER,
-				defaultValue: 0,
-
-			},
+       
             rate:{
 				type: DataTypes.INTEGER,
 				defaultValue: 0,

@@ -10,6 +10,8 @@ const { createGym,findGymByName,findGymByRif } = require('./controller/GymCrud')
 const { createTrainer,getAllTrainers,findTrainerbyId } = require('./controller/TrainerCrud');
 const { createCostumer,getAllCostumers,findCostumerbyId } = require('./controller/CostumerCrud');
 const { inscription, renovation, saleReport} = require('./controller/SaleController');
+const { createPayment, getPayments} = require('./controller/PaymentCrud');
+
 
 
 
@@ -23,6 +25,10 @@ router.put("/userupdater",userActiveUpdater)
 router.post("/creategym",createGym)
 router.get("/gymname",findGymByName)
 router.get("/gymrif",findGymByRif)
+router.post("/addpayment",createPayment )
+router.post("/getpayments",getPayments )
+
+
 
 //Trainer Crud
 router.post("/createtrainer",createTrainer)
