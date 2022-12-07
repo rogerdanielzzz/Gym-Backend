@@ -1,4 +1,4 @@
-const { User, Gym } = require("../../db.js");
+const { User, Gym, Payment } = require("../../db.js");
 const { toCapitalize } = require("../../utils/utils");
 const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
@@ -45,7 +45,10 @@ let findUserByEmail = (req, res) => {
     User.findOne({where:{
         email: emailLower
     },
-    include: Gym
+    include: {
+        model: Gym,
+        include: Payment
+    }
         
     }).then((user)=>{
         res.status(201).json({user: user})

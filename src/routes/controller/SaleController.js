@@ -2,13 +2,13 @@ const { Gym, Costumer, Sale, Op, Payment, Paidamount } = require("../../db.js");
 const { dateFormated, monthAdder, datewithHour } = require("../../utils/utils");
 
 let inscription = async (req, res) => {
-    const { idNumber, gymId, description,mustAmount , monthsPaid, arrPayment } = req.body;
+    const { idNumber, gymId, description, mustAmount, monthsPaid, arrPayment } = req.body;
     // Encriptamos la contraseña [{id:1, ammount: 20}]
-   // arrPayment debe ser un array de objetos con el monto y payment id 
+    // arrPayment debe ser un array de objetos con el monto y payment id 
 
     let idParsed = parseInt(idNumber);
     let ammountParsed = parseInt(mustAmount);
-  //  let rateParsed = parseInt(rate);
+    //  let rateParsed = parseInt(rate);
     let monthsPaidParsed = parseInt(monthsPaid);
     let dateGetter = dateFormated()
     let expireToUpdate = monthAdder(dateGetter, monthsPaidParsed)
@@ -38,10 +38,10 @@ let inscription = async (req, res) => {
             });
 
         let sale = await Sale.create({
-     //       isPaid: true,
+            //       isPaid: true,
             description,
             mustAmount: ammountParsed,
-        //    rate: rateParsed,
+            //    rate: rateParsed,
             monthsPaid: monthsPaidParsed,
             year: dateArr[0],
             month: dateArr[1],
@@ -53,19 +53,19 @@ let inscription = async (req, res) => {
         await sale.setCostumer(costumer);
 
         arrPayment.forEach(async (element) => {
-           
+
             let payment = await Payment.findOne({
                 where: {
-                    id:  element.id,
+                    id: element.id,
                 },
             });
 
             let paycheck = await Paidamount.create({
-                    amount: element.amount
-                   });
+                amount: element.amount
+            });
 
-                   await paycheck.setPayment(payment);
-                   await paycheck.setSale(sale);
+            await paycheck.setPayment(payment);
+            await paycheck.setSale(sale);
 
         });
 
@@ -79,15 +79,18 @@ let inscription = async (req, res) => {
 
 
 let renovation = async (req, res) => {
-    const { idNumber, gymId, description, amountUSD, amountBs, rate, monthsPaid } = req.body;
+    const { idNumber, gymId, description, mustAmount, monthsPaid, arrPayment } = req.body;
+
     // Encriptamos la contraseña
     let idParsed = parseInt(idNumber);
-    let usdParsed = parseInt(amountUSD);
-    let bsParsed = parseInt(amountBs);
-    let rateParsed = parseInt(rate);
+    let ammountParsed = parseInt(mustAmount);
+
+    // let rateParsed = parseInt(rate);
     let monthsPaidParsed = parseInt(monthsPaid);
     let dateGetter = datewithHour()
     let dateArr = dateGetter.split("-")
+    let date = new Date();
+    let hour = `${date.getHours()}:${date.getMinutes()}`
 
 
     try {
@@ -112,25 +115,42 @@ let renovation = async (req, res) => {
             });
 
         let sale = await Sale.create({
-            isPaid: true,
+            //       isPaid: true,
             description,
-            amountUSD: usdParsed,
-            amountBs: bsParsed,
-            rate: rateParsed,
+            mustAmount: ammountParsed,
+            //       rate: rateParsed,
             monthsPaid: monthsPaidParsed,
             year: dateArr[0],
             month: dateArr[1],
             day: dateArr[2],
-            hour: dateArr[3]
+            hour: hour
         });
 
         await sale.setGym(gym);
         await sale.setCostumer(costumer);
 
+        arrPayment.forEach(async (element) => {
+
+            let payment = await Payment.findOne({
+                where: {
+                    id: element.id,
+                },
+            });
+
+            let paycheck = await Paidamount.create({
+                amount: element.amount
+            });
+
+            await paycheck.setPayment(payment);
+            await paycheck.setSale(sale);
+
+        });
+
 
 
         res.status(201).json({ sale: sale });
     } catch (err) {
+        console.log(err)
         res.status(500).json({ err: err });
     }
 };
