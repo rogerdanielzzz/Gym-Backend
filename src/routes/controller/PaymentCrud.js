@@ -2,10 +2,16 @@ const { Gym, Payment } = require("../../db.js");
 const { toCapitalize } = require("../../utils/utils");
 
 let createPayment = async (req, res) => {
-    const { name, gymId, currency, description,banco ,correo,telefono,cedula,cuenta} = req.body;
+    const { name, gymId, currency, description,banco ,correo,tipoTel,telefono,Ncedula,cuenta,tipo} = req.body;
+let cedula;
+let celular;
+
+    if (tipo&&Ncedula) cedula= tipo+"-"+Ncedula
+    if (tipoTel&&telefono) celular= tipoTel+"-"+telefono
 
 
     if((currency==="USD")||(currency==="BS")){
+        
 
         let nameCapitalized = toCapitalize(name)
         
@@ -25,7 +31,7 @@ let createPayment = async (req, res) => {
                 description,
                 banco,
                 correo,
-                telefono,
+                telefono:celular,
                 cedula,
                 cuenta
             })
