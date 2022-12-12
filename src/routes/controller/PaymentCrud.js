@@ -2,10 +2,13 @@ const { Gym, Payment } = require("../../db.js");
 const { toCapitalize } = require("../../utils/utils");
 
 let createPayment = async (req, res) => {
-    const { name, gymId, currency } = req.body;
+    const { name, gymId, currency, description,banco ,correo,telefono,cedula,cuenta} = req.body;
+
+
     if((currency==="USD")||(currency==="BS")){
 
         let nameCapitalized = toCapitalize(name)
+        
    
 
         try {
@@ -19,7 +22,12 @@ let createPayment = async (req, res) => {
             let payment = await Payment.create({
                 name: nameCapitalized,
                 currency,
-              
+                description,
+                banco,
+                correo,
+                telefono,
+                cedula,
+                cuenta
             })
     
             await payment.setGym(gym)

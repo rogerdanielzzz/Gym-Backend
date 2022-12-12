@@ -2,11 +2,20 @@ const { DataTypes } = require('sequelize');
 
 module.exports = (sequelize) => {
 	sequelize.define(
-		'paidamount',
+		'plan',
 		{
-         
+
+            planName: {
+				type: DataTypes.STRING,
+				allowNull: false,
+			},
+			
+            durationType: {
+				type: DataTypes.STRING,
+				allowNull: false,
+			},
        
-            amount:{
+            price:{
 				type: DataTypes.INTEGER,
                 allowNull: false,
                 defaultValue: 0,

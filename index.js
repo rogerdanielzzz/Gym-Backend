@@ -1,5 +1,5 @@
 const server = require('./src/app.js');
-const { conn } = require('./src/db.js');
+const { conn ,Plan} = require('./src/db.js');
 const { PORT } = process.env;
 const PUERTO= PORT || 3001;
 
