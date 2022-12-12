@@ -1,4 +1,4 @@
-const { Gym, User } = require("../../db.js");
+const { Gym, User, Plan, Payment } = require("../../db.js");
 const { toCapitalize } = require("../../utils/utils");
 
 let createGym = async (req, res) => {
@@ -19,23 +19,34 @@ let createGym = async (req, res) => {
         let gym = await Gym.create({
             name: nameCapitalized,
             rif: rifUpper,
-          
+
         })
 
         await gym.setUser(user)
 
 
-      
-            let userGym = await User.findOne({
-                where: {
-                    email: emailLower
-                },include: Gym
-            })
-    
-    
-            res.status(201).json({ user: userGym })
-       
-      
+
+        let userGym = await User.findOne({
+            where: {
+                email: emailLower
+            },
+            include: [
+                {
+                    model: Payment
+                },
+                {
+                    model: Plan
+                },
+                {
+                    model: User
+                },
+            ]
+        })
+
+
+        res.status(201).json({ user: userGym })
+
+
 
     } catch (err) {
         res.status(203).json(err);
@@ -51,7 +62,17 @@ let findGymByRif = (req, res) => {
         where: {
             rif: rifUpper
         },
-        include: User
+        include: [
+            {
+                model: Payment
+            },
+            {
+                model: Plan
+            },
+            {
+                model: User
+            },
+        ]
 
     }).then((gym) => {
         res.status(201).json({ gym: gym })
@@ -69,7 +90,17 @@ let findGymByName = (req, res) => {
         where: {
             name: nameCapitalized
         },
-        include: User
+        include: [
+            {
+                model: Payment
+            },
+            {
+                model: Plan
+            },
+            {
+                model: User
+            },
+        ]
 
     }).then((gym) => {
         res.status(201).json({ gym: gym })

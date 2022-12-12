@@ -2,10 +2,10 @@ const { Gym, User, Trainer } = require("../../db.js");
 const { toCapitalize } = require("../../utils/utils");
 
 let createTrainer = async (req, res) => {
-    const {name  ,idNumber ,idType, gymId } = req.body;
+    const { name, idNumber, idType, gymId } = req.body;
     // Encriptamos la contraseña
     let fnameCapitalized = toCapitalize(name)
-    let idParsed= parseInt(idNumber)
+    let idParsed = parseInt(idNumber)
     let idTypeUpper = idType.toUpperCase()
 
 
@@ -19,8 +19,8 @@ let createTrainer = async (req, res) => {
 
         let trainer = await Trainer.create({
             fullname: fnameCapitalized,
-           idNumber: idParsed,
-           idType: idTypeUpper
+            idNumber: idParsed,
+            idType: idTypeUpper
         })
 
         await trainer.setGym(gym)
@@ -36,22 +36,22 @@ let createTrainer = async (req, res) => {
 let getAllTrainers = async (req, res) => {
     const { gymId } = req.body;
     // Encuentra un usuario 
-   try {
-    let trainers= await Trainer.findAll({
-       
-        include:{
-            model:Gym,
-            where: {
-                id: gymId
-            },
-        }
-    })
+    try {
+        let trainers = await Trainer.findAll({
+
+            include: {
+                model: Gym,
+                where: {
+                    id: gymId
+                },
+            }
+        })
         res.status(201).json({ trainers, })
-   } catch (err) {
-    res.status(500).json({ err: err });
-}
-   
-    
+    } catch (err) {
+        res.status(500).json({ err: err });
+    }
+
+
 
 }
 
@@ -59,7 +59,7 @@ let findTrainerbyId = (req, res) => {
     const { gymId, idNumber } = req.body;
     let idParsed = parseInt(idNumber)
 
-    
+
 
     // Encuentra un usuario 
     Trainer.findOne({
@@ -67,7 +67,7 @@ let findTrainerbyId = (req, res) => {
             idNumber: idParsed
         },
         include: {
-            model:Gym,
+            model: Gym,
             where: {
                 id: gymId
             },
