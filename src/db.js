@@ -53,7 +53,7 @@ Trainer.belongsTo(Gym)
 Gym.hasMany(Sale)
 Sale.belongsTo(Gym)
 
-User.hasOne(Gym)
+User.hasMany(Gym)
 Gym.belongsTo(User)
 
 Gym.hasMany(Payment)
