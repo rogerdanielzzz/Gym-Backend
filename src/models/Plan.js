@@ -10,12 +10,12 @@ module.exports = (sequelize) => {
 				allowNull: false,
 			},
 			
-            durationType: {
+            durationUnit: {
 				type: DataTypes.STRING,
 				allowNull: false,
 			},
-       
-            price:{
+
+			price:{
 				type: DataTypes.INTEGER,
                 allowNull: false,
                 defaultValue: 0,

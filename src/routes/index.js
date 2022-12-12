@@ -11,6 +11,8 @@ const { createTrainer,getAllTrainers,findTrainerbyId } = require('./controller/T
 const { createCostumer,getAllCostumers,findCostumerbyId } = require('./controller/CostumerCrud');
 const { inscription, renovation, saleReport} = require('./controller/SaleController');
 const { createPayment, getPayments} = require('./controller/PaymentCrud');
+const { createPlan, getPlans} = require('./controller/PlanCrud');
+
 
 
 
@@ -25,9 +27,12 @@ router.put("/userupdater",userActiveUpdater)
 router.post("/creategym",createGym)
 router.get("/gymname",findGymByName)
 router.get("/gymrif",findGymByRif)
+//Payment Crud
 router.post("/addpayment",createPayment )
 router.post("/getpayments",getPayments )
-
+//Plan Crud
+router.post("/addplan",createPlan )
+router.post("/getplans",getPlans )
 
 
 //Trainer Crud
