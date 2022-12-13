@@ -97,7 +97,10 @@ let singIn = (req, res) => {
             include: [
                 {
                     model: Payment,
-               
+                    required:false,
+                    where:{
+                        active:true
+                    }
                 },
                 {
                     model: Plan
