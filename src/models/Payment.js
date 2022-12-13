@@ -62,11 +62,15 @@ module.exports = (sequelize) => {
                 type: DataTypes.TEXT,
                 allowNull:false,
 			},
-
+			active:{
+				type: DataTypes.BOOLEAN,
+				defaultValue: true
+			},
+			
 		
 			
 		},
-		{ timestamps: false, createdAt: 'Realizado', updatedAt: false }
+		{ timestamps: false, createdAt: 'Realizado', updatedAt: false , paranoid: true,}
 	);
 };
 //as

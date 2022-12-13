@@ -96,7 +96,10 @@ let singIn = (req, res) => {
             model: Gym,
             include: [
                 {
-                    model: Payment
+                    model: Payment,
+                    where:{
+                        active:true
+                    }
                 },
                 {
                     model: Plan

@@ -70,6 +70,7 @@ const getPayments= async(req, res)=>{
         let payment = await Payment.findAll({
             where: {
                 gymId,
+                active:true
             }
         })
 
@@ -84,7 +85,33 @@ const getPayments= async(req, res)=>{
 }
 }
 
+const softDeletePayment = async(req,res)=>{
+    const {gymId,paymentId}= req.body
+    try {
+
+        await Payment.update({ active:false }, { where: { gymId: gymId, id: paymentId } })
+        res.status(201).json({ success: "Payment Disable" });
+    } catch (e) {
+        res.status(404).json({ error: e.message });
+    }
+
+}
+
+const deletePayment = async(req,res)=>{
+    const {gymId,paymentId}= req.body
+    try {
+
+        await Payment.destroy({ where: { gymId: gymId, id: paymentId } })
+        res.status(201).json({ success: "Payment Deleted" });
+    } catch (e) {
+        res.status(404).json({ error: e.message });
+    }
+
+}
+
 module.exports = {
     createPayment,
-    getPayments
+    getPayments,
+    deletePayment,
+    softDeletePayment
 }
