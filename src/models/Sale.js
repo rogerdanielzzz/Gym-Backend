@@ -41,7 +41,6 @@ module.exports = (sequelize) => {
 			},
 			hour:{
 				type: DataTypes.STRING,
-				defaultValue: "18:30",
 
 			},
 
