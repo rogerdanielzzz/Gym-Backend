@@ -2,7 +2,7 @@ const { Gym, Costumer, Checkin} = require("../../db.js");
 const { dateFormated} = require("../../utils/utils");
 
 let checkInRegister = async (req, res) => {
-    const { idNumber, gymId} = req.body;
+    const {idType, idNumber, gymId} = req.body;
 
     let dateGetter = dateFormated()
     let dateArr = dateGetter.split("-")
@@ -11,7 +11,7 @@ let checkInRegister = async (req, res) => {
     let hour = `${date.getHours()}:${date.getMinutes()}`
 
 
-    if((idNumber)||(gymId)){
+    if((idNumber)||(idType)||(gymId)){
         
         try {
     
@@ -23,6 +23,7 @@ let checkInRegister = async (req, res) => {
 
             let costumer = await Costumer.findOne({
                 where: {
+                    idType,
                     idNumber,
                     gymId,
                 }
