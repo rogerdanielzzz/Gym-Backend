@@ -2,9 +2,9 @@ const { Gym, Plan } = require("../../db.js");
 const { toCapitalize } = require("../../utils/utils");
 
 let createPlan = async (req, res) => {
-    const {gymId, planName,durationUnit,price} = req.body;
+    const {gymId, planName,durationUnit,durationQty,price} = req.body;
  
-    if((durationUnit==="Day")||(durationUnit==="Week")||((durationUnit==="Month"))){
+    if((durationUnit==="Day")||(durationUnit==="Week")||((durationUnit==="Month"))||((durationUnit==="Year"))){
 
         let nameCapitalized = toCapitalize(planName)
         let priceParsed = parseFloat(price)
@@ -22,6 +22,7 @@ let createPlan = async (req, res) => {
                 planName: nameCapitalized,
                 price: priceParsed,
                 durationUnit,
+                durationQty
 
             })
     
