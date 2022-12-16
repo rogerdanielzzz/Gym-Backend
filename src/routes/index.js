@@ -12,7 +12,7 @@ const { createCostumer,getAllCostumers,findCostumerbyId } = require('./controlle
 const { inscription, renovation, saleReport} = require('./controller/SaleController');
 const { createPayment, getPayments,softDeletePayment, deletePayment} = require('./controller/PaymentCrud');
 const { createPlan, getPlans} = require('./controller/PlanCrud');
-const { checkInRegister} = require('./controller/CheckinController');
+const { checkInRegister, getCheckins} = require('./controller/CheckinController');
 
 
 
@@ -65,6 +65,8 @@ router.post("/signin",singIn )
 // Checking register
 
 router.post("/checkin",checkInRegister )
+router.post("/getcheckin",getCheckins )
+
 
 
 

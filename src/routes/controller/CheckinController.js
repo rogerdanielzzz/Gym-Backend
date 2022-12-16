@@ -30,7 +30,7 @@ let checkInRegister = async (req, res) => {
             })
 
             if (costumer && gym) {
-                let acepted = costumer.expire > dateGetter
+                let acepted = costumer.expire >= dateGetter
                 let checkin = await Checkin.create({
                     acepted,
                     year: dateArr[0],
@@ -70,8 +70,64 @@ let checkInRegister = async (req, res) => {
 
 }
 
+let getCheckins= async(req, res)=>{
+    const {gymId } = req.body;
+
+
+    if (gymId) {
+
+        try {
+
+            let gym = await Gym.findOne({
+                where: {
+                    id: gymId
+                }
+            })
+
+            if (gym) {
+             let checkin = await Checkin.findAll({
+                where: {
+                    gymId,
+                    
+                },
+                include:{
+                    model:Costumer
+                }
+            })
+           
+
+                res.status(201).json({ success: checkin })
+
+            } else {
+                res.status(201).json({ error: "Gimnasio no Existe" })
+
+            }
+
+
+
+
+        } catch (err) {
+            console.log(err)
+            res.status(203).json({ error: err });
+
+        }
+
+
+    } else {
+
+        res.status(201).json({ error: "Currency Must be provide gymId and Idnumber of costumer" })
+
+
+
+    }
+
+
+}
+
+
+
 
 module.exports = {
     checkInRegister,
-
+    getCheckins
 }

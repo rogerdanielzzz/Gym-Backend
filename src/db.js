@@ -74,14 +74,6 @@ Checkin.belongsTo(Gym)
 Costumer.hasMany(Checkin)
 Checkin.belongsTo(Costumer)
 
-
-
-
-
-
-
-
-
 // Aca vendrian las relaciones
 // Product.hasMany(Reviews);
 
