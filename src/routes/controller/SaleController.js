@@ -1,17 +1,18 @@
 const { Gym, Costumer, Sale, Op, Payment, Paidamount } = require("../../db.js");
-const { dateFormated, monthAdder, datewithHour } = require("../../utils/utils");
+const { dateFormated, monthAdder, datewithHour,yearAdder,dayAdder,weekAdder} = require("../../utils/utils");
 
 let inscription = async (req, res) => {
-    const { idNumber, gymId, description, mustAmount, monthsPaid, arrPayment } = req.body;
+   // const { idNumber, gymId, description, mustAmount, monthsPaid, arrPayment } = req.body;
+   const { idNumber, gymId, plan, arrPayment } = req.body
     // arrPayment= [{id:1, ammount: 20}]
     // arrPayment debe ser un array de objetos con el monto y payment id 
 
     let idParsed = parseInt(idNumber);
-    let ammountParsed = parseInt(mustAmount);
+    let ammountParsed = parseInt(plan.price);
     //  let rateParsed = parseInt(rate);
-    let monthsPaidParsed = parseInt(monthsPaid);
+    let durationQty = parseInt(plan.durationQty);
     let dateGetter = dateFormated()
-    let expireToUpdate = monthAdder(dateGetter, monthsPaidParsed)
+    let expireToUpdate = monthAdder(dateGetter, durationQty)
     let dateArr = dateGetter.split("-")
     let date = new Date();
     let hour = `${date.getHours()}:${date.getMinutes()}`
@@ -42,7 +43,7 @@ let inscription = async (req, res) => {
             description,
             mustAmount: ammountParsed,
             //    rate: rateParsed,
-            monthsPaid: monthsPaidParsed,
+            monthsPaid: durationQty,
             year: dateArr[0],
             month: dateArr[1],
             day: dateArr[2],
