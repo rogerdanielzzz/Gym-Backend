@@ -4,10 +4,19 @@ const bodyParser = require('body-parser');
 const morgan = require('morgan');
 const routes = require('./routes/index.js');
 const cors = require('cors');
-
+const { Server } = require("socket.io")
+const http = require("http")
 require('./db.js');
 
 const server = express();
+
+const prueba = http.createServer(server)
+const io = new Server(prueba, {
+  cors: {
+    origin: ["http://localhost:3000", 'FINAL URL'],
+    methods: ['GET', 'POST', 'DELETE', 'UPDATE', 'PUT', 'PATCH']
+  }
+})
 
 server.name = 'API';
 
@@ -25,7 +34,7 @@ server.use((req, res, next) => {
 
 server.use(cors({
   origin: ["http://localhost:3000/", 'FINAL URL'],
-  methods: ['GET','POST','DELETE','UPDATE','PUT','PATCH']
+  methods: ['GET', 'POST', 'DELETE', 'UPDATE', 'PUT', 'PATCH']
 }));
 
 server.use('/', routes);
@@ -38,4 +47,13 @@ server.use((err, req, res, next) => { // eslint-disable-line no-unused-vars
   res.status(status).send(message);
 });
 
-module.exports = server;
+io.on(`connection`, (socket) => {
+  console.log("usuario conectado")
+  socket.on("prueba", (data) => {
+    console.log(`data${data.gymId}`)
+    socket.broadcast.emit(`data${data.gymId}`,data)
+  })
+
+})
+
+module.exports = prueba;

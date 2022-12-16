@@ -5,6 +5,7 @@ let inscription = async (req, res) => {
    // const { idNumber, gymId, description, mustAmount, monthsPaid, arrPayment } = req.body;
    const { idNumber, gymId, plan, arrPayment } = req.body
     // arrPayment= [{id:1, ammount: 20}]
+    // plan {yyy}
     // arrPayment debe ser un array de objetos con el monto y payment id 
 
     let idParsed = parseInt(idNumber);
