@@ -13,7 +13,7 @@ const server = express();
 const prueba = http.createServer(server)
 const io = new Server(prueba, {
   cors: {
-    origin: ["http://localhost:3000/", 'FINAL URL'],
+    origin:"http://localhost:3000",
     methods: ['GET', 'POST', 'DELETE', 'UPDATE', 'PUT', 'PATCH']
   }
 })
