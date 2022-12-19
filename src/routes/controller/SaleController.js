@@ -1,5 +1,5 @@
 const { Gym, Costumer, Sale, Op, Payment, Paidamount } = require("../../db.js");
-const { dateFormated, monthAdder, datewithHour, yearAdder, dayAdder, weekAdder, monthAdder, datewithHour } = require("../../utils/utils");
+const { dateFormated, monthAdder, datewithHour, yearAdder, dayAdder, weekAdder, datewithHour } = require("../../utils/utils");
 
 let inscription = async (req, res) => {
     // const { idNumber, gymId, description, mustAmount, monthsPaid, arrPayment } = req.body;
