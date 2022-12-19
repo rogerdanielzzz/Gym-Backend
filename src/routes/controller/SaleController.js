@@ -1,9 +1,9 @@
 const { Gym, Costumer, Sale, Op, Payment, Paidamount } = require("../../db.js");
-const { dateFormated, monthAdder, datewithHour,yearAdder,dayAdder,weekAdder} = require("../../utils/utils");
+const { dateFormated, monthAdder, datewithHour, yearAdder, dayAdder, weekAdder, monthAdder, datewithHour } = require("../../utils/utils");
 
 let inscription = async (req, res) => {
-   // const { idNumber, gymId, description, mustAmount, monthsPaid, arrPayment } = req.body;
-   const { idNumber, gymId, plan, arrPayment } = req.body
+    // const { idNumber, gymId, description, mustAmount, monthsPaid, arrPayment } = req.body;
+    const { idNumber, gymId, plan, arrPayment } = req.body
     // arrPayment= [{id:1, ammount: 20}]
     // plan {yyy}
     // arrPayment debe ser un array de objetos con el monto y payment id 
@@ -12,11 +12,21 @@ let inscription = async (req, res) => {
     let ammountParsed = parseInt(plan.price);
     //  let rateParsed = parseInt(rate);
     let durationQty = parseInt(plan.durationQty);
-    let dateGetter = dateFormated()
-    let expireToUpdate = monthAdder(dateGetter, durationQty)
+    let dateGetter = datewithHour()
+    let expireToUpdate;
+
+    if (plan.durationUnit === "Month") expireToUpdate = monthAdder(dateFormated(), durationQty)
+    else if (plan.durationUnit === "Year") expireToUpdate = yearAdder(dateFormated(), durationQty)
+    else if (plan.durationUnit === "Day") expireToUpdate = dayAdder(dateFormated(), durationQty)
+    else if (plan.durationUnit === "Week") expireToUpdate = weekAdder(dateFormated(), durationQty)
+
+
+
+
+
     let dateArr = dateGetter.split("-")
-    let date = new Date();
-    let hour = `${date.getHours()}:${date.getMinutes()}`
+    // let date = new Date();
+    // let hour = `${date.getHours()}:${date.getMinutes()}`
 
 
     try {
@@ -29,6 +39,7 @@ let inscription = async (req, res) => {
         let costumer = await Costumer.findOne({
             where: {
                 idNumber: idParsed,
+                gymId,
             },
         });
         await costumer.update(
@@ -36,19 +47,24 @@ let inscription = async (req, res) => {
                 expire: expireToUpdate
             },
             {
-                where: { idNumber: idParsed }
+                where: {
+                    idNumber: idParsed,
+                    gymId,
+                }
             });
 
         let sale = await Sale.create({
             //       isPaid: true,
-            description,
+            //      description,
             mustAmount: ammountParsed,
             //    rate: rateParsed,
             monthsPaid: durationQty,
             year: dateArr[0],
             month: dateArr[1],
             day: dateArr[2],
-            hour: hour
+            //      hour: hour,
+            hour: dateArr[3],
+
         });
 
         await sale.setGym(gym);
@@ -81,18 +97,22 @@ let inscription = async (req, res) => {
 
 
 let renovation = async (req, res) => {
-    const { idNumber, gymId, description, mustAmount, monthsPaid, arrPayment } = req.body;
+    // const { idNumber, gymId, description, mustAmount, monthsPaid, arrPayment } = req.body;
+    let expireToUpdate
+    const { idNumber, gymId, plan, arrPayment } = req.body
+    // arrPayment= [{id:1, ammount: 20}]
+    // plan {yyy}
+    // arrPayment debe ser un array de objetos con el monto y payment id 
 
-    // Encriptamos la contraseña
     let idParsed = parseInt(idNumber);
-    let ammountParsed = parseInt(mustAmount);
-
-    // let rateParsed = parseInt(rate);
-    let monthsPaidParsed = parseInt(monthsPaid);
+    let ammountParsed = parseInt(plan.price);
+    //  let rateParsed = parseInt(rate);
+    let durationQty = parseInt(plan.durationQty);
     let dateGetter = datewithHour()
     let dateArr = dateGetter.split("-")
     let date = new Date();
     let hour = `${date.getHours()}:${date.getMinutes()}`
+
 
 
     try {
@@ -105,27 +125,35 @@ let renovation = async (req, res) => {
         let costumer = await Costumer.findOne({
             where: {
                 idNumber: idParsed,
+                gymId,
             },
         });
-        let expireToUpdate = monthAdder(costumer.expire, monthsPaidParsed)
+        if (plan.durationUnit === "Month") expireToUpdate = monthAdder(dateFormated(), durationQty)
+        else if (plan.durationUnit === "Year") expireToUpdate = yearAdder(dateFormated(), durationQty)
+        else if (plan.durationUnit === "Day") expireToUpdate = dayAdder(dateFormated(), durationQty)
+        else if (plan.durationUnit === "Week") expireToUpdate = weekAdder(dateFormated(), durationQty)
+
         await costumer.update(
             {
                 expire: expireToUpdate
             },
             {
-                where: { idNumber: idParsed }
+                where: {
+                    idNumber: idParsed,
+                    gymId,
+                }
             });
 
         let sale = await Sale.create({
             //       isPaid: true,
-            description,
+            //            description,
             mustAmount: ammountParsed,
             //       rate: rateParsed,
             monthsPaid: monthsPaidParsed,
             year: dateArr[0],
             month: dateArr[1],
             day: dateArr[2],
-            hour: hour
+            hour: dateArr[3],
         });
 
         await sale.setGym(gym);

@@ -5,6 +5,7 @@ let toCapitalize = (str) => {
 
 }
 
+
 let dateFormated = () => {
 
     let date = new Date();
@@ -32,7 +33,7 @@ let datewithHour = () => {
 
 
     // genera un string año-mes-dia
-    let formattedDate = year + "-" + month + "-" + day+"-" + hour;;
+    let formattedDate = year + "-" + month + "-" + day + "-" + hour;;
 
     return formattedDate
 }
@@ -40,8 +41,8 @@ let datewithHour = () => {
 let yearAdder = (string, qty) => {
 
     let dateArr = string.split("-");
-    dateArr[0] = ((dateArr[0] * 1) + qty);  
-    dateArr[0]=dateArr[1].toString()
+    dateArr[0] = ((dateArr[0] * 1) + qty);
+    dateArr[0] = dateArr[1].toString()
     let formattedDate = dateArr.join("-")
     return formattedDate
 }
@@ -51,10 +52,10 @@ let monthAdder = (string, monthqty) => {
     dateArr[1] = ((dateArr[1] * 1) + monthqty);
     while (dateArr[1] > 12) {
         dateArr[1] = dateArr[1] - 12
-        dateArr[0] = (dateArr[0]*1) + 1
+        dateArr[0] = (dateArr[0] * 1) + 1
     }
-    dateArr[1]=dateArr[1].toString()
-    dateArr[0]=dateArr[0].toString()
+    dateArr[1] = dateArr[1].toString()
+    dateArr[0] = dateArr[0].toString()
 
     if (dateArr[1].length < 2) dateArr[1] = "0" + dateArr[1]
 
@@ -64,56 +65,46 @@ let monthAdder = (string, monthqty) => {
 
 
 let dayAdder = (string, qty) => {
+
+    let monthDayQty=(month, year)=> {
+        return new Date(year, month, 0).getDate();
+    }
     let dateArr = string.split("-");
-    let biciesto= (dateArr[0]-2020)%4==0
+   for (let index = 0; index < dateArr.length; index++) {
+    dateArr[index]=dateArr[index]*1;
+    
+   }
+    dateArr[2] = dateArr[2] + qty; //33
+    let dayPerMonth=monthDayQty(dateArr[1],dateArr[0])
+    while (dateArr[2]> dayPerMonth ) {
+        dateArr[2]= dateArr[2]-dayPerMonth
+        dateArr[1]= dateArr[1]+1
+        if (dateArr[1]==13){
+            dateArr[1]=1
+            dateArr[0]= dateArr[0]+1
 
-if (dateArr[1]=="02"){
-    dateArr[2] = ((dateArr[2] * 1) + qty);
-  if(dateArr[2]>28){
-    let biciesto= (dateArr[0]-2020)%4==0
-
-    if(biciesto){
-        dateArr[2]=dateArr[2]-29
-    }else{
-        dateArr[2]=dateArr[2]-28
-
+        } 
+        dayPerMonth=monthDayQty(dateArr[1],dateArr[0]) 
     }
-  }
-}
-    dateArr[2] = ((dateArr[2] * 1) + qty);
 
-
-
-    while (dateArr[1] > 12) {
-        dateArr[1] = dateArr[1] - 12
-        dateArr[0] = (dateArr[0]*1) + 1
-    }
-    dateArr[1]=dateArr[1].toString()
-    dateArr[0]=dateArr[0].toString()
-
-    if (dateArr[1].length < 2) dateArr[1] = "0" + dateArr[1]
+    dateArr.forEach(el => {
+        el.toString()
+        if (el.length===1) el= "0"+el
+    });
 
     let formattedDate = dateArr.join("-")
     return formattedDate
 }
 
 
-let weekAdder = (string, monthqty) => {
+let weekAdder = (string, qty) => {
 
-    let dateArr = string.split("-");
-    dateArr[1] = ((dateArr[1] * 1) + monthqty);
-    while (dateArr[1] > 12) {
-        dateArr[1] = dateArr[1] - 12
-        dateArr[0] = (dateArr[0]*1) + 1
-    }
-    dateArr[1]=dateArr[1].toString()
-    dateArr[0]=dateArr[0].toString()
+    let weeks= qty*7
 
-    if (dateArr[1].length < 2) dateArr[1] = "0" + dateArr[1]
-
-    let formattedDate = dateArr.join("-")
+    let formattedDate = dayAdder(string,weeks)
     return formattedDate
 }
+
 
 
 module.exports = {
