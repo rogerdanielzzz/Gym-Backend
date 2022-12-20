@@ -3,17 +3,17 @@ const { dateFormated, monthAdder, datewithHour, yearAdder, dayAdder, weekAdder }
 
 let inscription = async (req, res) => {
     // const { idNumber, gymId, description, mustAmount, monthsPaid, arrPayment } = req.body;
-    const { idNumber, gymId, plan, arrPayment } = req.body
+    const {description, idNumber, gymId, plan, arrPayment } = req.body
     // arrPayment= [{id:1, ammount: 20}]
     // plan {yyy}
     // arrPayment debe ser un array de objetos con el monto y payment id 
-
     let idParsed = parseInt(idNumber);
     let ammountParsed = parseInt(plan.price);
     //  let rateParsed = parseInt(rate);
     let durationQty = parseInt(plan.durationQty);
     let dateGetter = datewithHour()
     let expireToUpdate;
+
 
     if (plan.durationUnit === "Month") expireToUpdate = monthAdder(dateFormated(), durationQty)
     else if (plan.durationUnit === "Year") expireToUpdate = yearAdder(dateFormated(), durationQty)
@@ -55,7 +55,7 @@ let inscription = async (req, res) => {
 
         let sale = await Sale.create({
             //       isPaid: true,
-            //      description,
+                  description,
             mustAmount: ammountParsed,
             //    rate: rateParsed,
             monthsPaid: durationQty,
@@ -91,6 +91,7 @@ let inscription = async (req, res) => {
 
         res.status(201).json({ sale: sale });
     } catch (err) {
+        console.log(err)
         res.status(500).json({ err: err });
     }
 };
