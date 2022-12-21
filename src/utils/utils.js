@@ -42,7 +42,7 @@ let yearAdder = (string, qty) => {
 
     let dateArr = string.split("-");
     dateArr[0] = ((dateArr[0] * 1) + qty);
-    dateArr[0] = dateArr[1].toString()
+    dateArr[0] = dateArr[0].toString()
     let formattedDate = dateArr.join("-")
     return formattedDate
 }
