@@ -45,7 +45,7 @@ let checkInRegister = async (req, res) => {
                 res.status(201).json({ success: checkin })
 
             } else {
-                res.status(201).json({ error: "Cliente no Existe" })
+                res.status(201).json({  msg: "Cliente no Existe" })
 
             }
 
