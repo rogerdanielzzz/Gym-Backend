@@ -33,7 +33,7 @@ let celular;
                 correo,
                 telefono:celular,
                 cedula,
-                nCuenta
+                nCuenta: nCuenta
             })
     
             await payment.setGym(gym)
