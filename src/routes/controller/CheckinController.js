@@ -1,14 +1,14 @@
 const { Gym, Costumer, Checkin } = require("../../db.js");
-const { dateFormated } = require("../../utils/utils");
+const { dateFormated, datewithHour } = require("../../utils/utils");
 
 let checkInRegister = async (req, res) => {
     const { idType, idNumber, gymId } = req.body;
 
-    let dateGetter = dateFormated()
+    let dateGetter = datewithHour()
     let dateArr = dateGetter.split("-")
 
-    let date = new Date();
-    let hour = `${date.getHours()}:${date.getMinutes()}`
+   // let date = new Date();
+   // let hour = `${date.getHours()}:${date.getMinutes()}`
 
 
     if ((idNumber) || (idType) || (gymId)) {
@@ -36,7 +36,7 @@ let checkInRegister = async (req, res) => {
                     year: dateArr[0],
                     month: dateArr[1],
                     day: dateArr[2],
-                    hour: hour
+                    hour: dateArr[3]
                 })
 
                 await checkin.setGym(gym)
