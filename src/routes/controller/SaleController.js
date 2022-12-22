@@ -3,7 +3,11 @@ const { dateFormated, monthAdder, datewithHour, yearAdder, dayAdder, weekAdder }
 
 let inscription = async (req, res) => {
     // const { idNumber, gymId, description, mustAmount, monthsPaid, arrPayment } = req.body;
+
     const { description, gymId, plan, arrPayment, customer } = req.body
+    console.log(req.body)
+    console.log(customer)
+
     const { fullname, idNumber, idType, birthdate, cellphone, preNumber } = customer
 
     let fnameCapitalized = toCapitalize(fullname)
