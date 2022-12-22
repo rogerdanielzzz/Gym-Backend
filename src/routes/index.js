@@ -49,7 +49,7 @@ router.get("/gettrainers",getAllTrainers)
 
 //costumer Crud
 router.post("/createcostumer",createCostumer)
-router.get("/findcostumer",findCostumerbyId)
+router.post("/findcostumer",findCostumerbyId)
 router.get("/getcostumers/:gymId",getAllCostumers)
 
 //Sale Creator
