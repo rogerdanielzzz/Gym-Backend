@@ -105,7 +105,7 @@ let inscription = async (req, res) => {
 let renovation = async (req, res) => {
     // const { idNumber, gymId, description, mustAmount, monthsPaid, arrPayment } = req.body;
     let expireToUpdate
-    const {gymId, plan, arrPayment,customer} = req.body
+    const { gymId, plan, arrPayment, customer } = req.body
     const { idNumber, idType } = customer
     // arrPayment= [{id:1, ammount: 20}]
     // plan {yyy}
@@ -117,7 +117,7 @@ let renovation = async (req, res) => {
     let durationQty = parseInt(plan.durationQty);
     let dateGetter = datewithHour()
     let dateArr = dateGetter.split("-")
- 
+
 
 
 
@@ -157,7 +157,7 @@ let renovation = async (req, res) => {
             //            description,
             mustAmount: ammountParsed,
             //       rate: rateParsed,
-            monthsPaid: monthsPaidParsed,
+            monthsPaid: durationQty,
             year: dateArr[0],
             month: dateArr[1],
             day: dateArr[2],
