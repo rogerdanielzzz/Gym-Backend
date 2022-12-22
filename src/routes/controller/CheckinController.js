@@ -42,7 +42,7 @@ let checkInRegister = async (req, res) => {
                 await checkin.setGym(gym)
                 await checkin.setCostumer(costumer)
 
-                res.status(201).json({ success: checkin })
+                res.status(201).json({ success: checkin,customer, gym})
 
             } else {
                 res.status(201).json({  msg: "Cliente no Existe" })
