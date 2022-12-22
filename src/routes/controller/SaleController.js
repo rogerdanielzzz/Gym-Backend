@@ -5,9 +5,6 @@ let inscription = async (req, res) => {
     // const { idNumber, gymId, description, mustAmount, monthsPaid, arrPayment } = req.body;
 
     const { description, gymId, plan, arrPayment, customer } = req.body
-    console.log(req.body)
-    console.log(customer)
-
     const { fullname, idNumber, idType, birthdate, cellphone, preNumber } = customer
 
     let fnameCapitalized = toCapitalize(fullname)
@@ -87,7 +84,7 @@ let inscription = async (req, res) => {
             });
 
             let paycheck = await Paidamount.create({
-                amount: element.amount
+                amount: element.ammount
             });
 
             await paycheck.setPayment(payment);
