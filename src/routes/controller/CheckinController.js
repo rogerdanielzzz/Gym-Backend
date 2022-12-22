@@ -45,7 +45,7 @@ let checkInRegister = async (req, res) => {
                 res.status(201).json(
                     {
                         success: checkin,
-                        customer,
+                        costumer,
                         gym,
                     })
 
