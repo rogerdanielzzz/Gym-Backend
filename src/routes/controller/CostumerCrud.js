@@ -58,14 +58,16 @@ let getAllCostumers = async (req, res) => {
 }
 
 let findCostumerbyId = (req, res) => {
-    const { gymId, idNumber } = req.body;
+    const { gymId, idNumber, idType } = req.body;
 
     let idParsed = parseInt(idNumber)
 
     // Encuentra un usuario 
     Costumer.findOne({
         where: {
-            idNumber: idParsed
+            idNumber: idParsed,
+            idType,
+            gymId,
         },
         include: {
             model: Gym,
