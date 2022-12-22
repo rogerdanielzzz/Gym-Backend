@@ -105,7 +105,7 @@ let inscription = async (req, res) => {
 let renovation = async (req, res) => {
     // const { idNumber, gymId, description, mustAmount, monthsPaid, arrPayment } = req.body;
     let expireToUpdate
-    const { gymId, plan, arrPayment, customer } = req.body
+    const { gymId, plan, arrPayment, customer, description } = req.body
     const { idNumber, idType } = customer
     // arrPayment= [{id:1, ammount: 20}]
     // plan {yyy}
@@ -154,7 +154,7 @@ let renovation = async (req, res) => {
 
         let sale = await Sale.create({
             //       isPaid: true,
-            //            description,
+            description,
             mustAmount: ammountParsed,
             //       rate: rateParsed,
             monthsPaid: durationQty,
