@@ -105,7 +105,8 @@ let inscription = async (req, res) => {
 let renovation = async (req, res) => {
     // const { idNumber, gymId, description, mustAmount, monthsPaid, arrPayment } = req.body;
     let expireToUpdate
-    const { idNumber, gymId, plan, arrPayment } = req.body
+    const {gymId, plan, arrPayment,customer} = req.body
+    const { idNumber, idType } = customer
     // arrPayment= [{id:1, ammount: 20}]
     // plan {yyy}
     // arrPayment debe ser un array de objetos con el monto y payment id 
@@ -116,8 +117,7 @@ let renovation = async (req, res) => {
     let durationQty = parseInt(plan.durationQty);
     let dateGetter = datewithHour()
     let dateArr = dateGetter.split("-")
-    let date = new Date();
-    let hour = `${date.getHours()}:${date.getMinutes()}`
+ 
 
 
 
@@ -131,6 +131,7 @@ let renovation = async (req, res) => {
         let costumer = await Costumer.findOne({
             where: {
                 idNumber: idParsed,
+                idType,
                 gymId,
             },
         });
@@ -147,6 +148,7 @@ let renovation = async (req, res) => {
                 where: {
                     idNumber: idParsed,
                     gymId,
+                    idType
                 }
             });
 
@@ -184,7 +186,7 @@ let renovation = async (req, res) => {
 
 
 
-        res.status(201).json({ sale: sale });
+        res.status(201).json({ sale: sale, costumer });
     } catch (err) {
         console.log(err)
         res.status(500).json({ err: err });
