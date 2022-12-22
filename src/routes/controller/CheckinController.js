@@ -7,8 +7,8 @@ let checkInRegister = async (req, res) => {
     let dateGetter = datewithHour()
     let dateArr = dateGetter.split("-")
 
-   // let date = new Date();
-   // let hour = `${date.getHours()}:${date.getMinutes()}`
+    // let date = new Date();
+    // let hour = `${date.getHours()}:${date.getMinutes()}`
 
 
     if ((idNumber) || (idType) || (gymId)) {
@@ -42,10 +42,15 @@ let checkInRegister = async (req, res) => {
                 await checkin.setGym(gym)
                 await checkin.setCostumer(costumer)
 
-                res.status(201).json({ success: checkin})
+                res.status(201).json(
+                    {
+                        success: checkin,
+                        customer,
+                        gym,
+                    })
 
             } else {
-                res.status(201).json({  msg: "Cliente no Existe" })
+                res.status(201).json({ msg: "Cliente no Existe" })
 
             }
 
@@ -70,8 +75,8 @@ let checkInRegister = async (req, res) => {
 
 }
 
-let getCheckins= async(req, res)=>{
-    const {gymId } = req.body;
+let getCheckins = async (req, res) => {
+    const { gymId } = req.body;
 
 
     if (gymId) {
@@ -85,16 +90,16 @@ let getCheckins= async(req, res)=>{
             })
 
             if (gym) {
-             let checkin = await Checkin.findAll({
-                where: {
-                    gymId,
-                    
-                },
-                include:{
-                    model:Costumer
-                }
-            })
-           
+                let checkin = await Checkin.findAll({
+                    where: {
+                        gymId,
+
+                    },
+                    include: {
+                        model: Costumer
+                    }
+                })
+
 
                 res.status(201).json({ success: checkin })
 
