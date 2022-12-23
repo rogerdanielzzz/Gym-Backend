@@ -225,7 +225,7 @@ let getPaymentTotal = async (req, res) => {
     let searchParameters = { ...req.body }
 
     try {
-        let report = await Payment.findAll({
+        let copy = await Payment.findAll({
             where: {
                 gymId,
             },
@@ -239,7 +239,7 @@ let getPaymentTotal = async (req, res) => {
             },
 
         })
-
+        let report= {...copy}
 
         for (let i = 0; i < report.length; i++) {
             let total = 0
