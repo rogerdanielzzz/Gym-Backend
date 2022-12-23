@@ -222,6 +222,9 @@ let getSales = async (req, res) => {
 
 let getPaymentTotal = async (req, res) => {
     let { gymId, year, month, day } = req.body
+    let searchParameters = { ...req.body }
+    delete searchParameters.gymId;
+
     try {
         let report = await Payment.findAll({
             where: {
@@ -232,11 +235,7 @@ let getPaymentTotal = async (req, res) => {
                 include: {
                     model: Sale,
                     required: true,
-                    where: {
-                        year,
-                        month,
-                        day
-                    }
+                    where: searchParameters
                 }
             },
 
