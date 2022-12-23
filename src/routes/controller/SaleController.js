@@ -232,9 +232,9 @@ let getPaymentTotal = async (req, res) => {
             },
             include: {
                 model: Paidamount,
+                required: true,
                 include: {
                     model: Sale,
-                    required: true,
                     where: searchParameters
                 }
             },
