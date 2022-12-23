@@ -225,7 +225,7 @@ let getPaymentTotal = async (req, res) => {
     let searchParameters = { ...req.body }
 
     try {
-        let copy = await Payment.findAll({
+        let report = await Payment.findAll({
             where: {
                 gymId,
             },
@@ -239,27 +239,22 @@ let getPaymentTotal = async (req, res) => {
             },
 
         })
-        console.log("encuentro")
-        let report= [...copy]
+        
+        report[0].prueba=0
 
-        console.log("entro for")
-
-        for (let i = 0; i < report.length; i++) {
+     /*   for (let i = 0; i < report.length; i++) {
             let total = 0
-            console.log(report[i])
             for (let y = 0; y < report[i].paidamounts.length; y++) {
                 
                 total = total + report[i].paidamounts[y].amount
                 console.log(total)
             }
             report[i].totalAmount = total
-            console.log(report[i])
 
-        }
-        console.log("Salir for")
+        }*/
 
 
-        res.status(201).json({ qty: report.length, msg: report });
+        res.status(201).json({ qty: report[0], msg: report });
 
     } catch (e) {
         console.log(e)
