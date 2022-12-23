@@ -240,7 +240,7 @@ let getPaymentTotal = async (req, res) => {
 
         })
         
-        report[0].prueba=0
+        let totales=[]
 
        for (let i = 0; i < report.length; i++) {
             let total = 0
@@ -249,12 +249,23 @@ let getPaymentTotal = async (req, res) => {
                 total = total + report[i].paidamounts[y].amount
                 console.log(total)
             }
-            report[i].totalAmount = total
+            let pay={
+                id: report[i].id,
+                name:report[i].name,
+                currency: report[i].currency,
+                totalAmount: total,
+            }
+            if (report[i].banco) pay.banco= report[i].banco;
+            if (report[i].correo) pay.correo= report[i].correo;    
+            if (report[i].cuenta) pay.cuenta= report[i].cuenta;    
+            if (report[i].telefono) pay.telefono= report[i].telefono;   
+            if (report[i].cedula) pay.cedula= report[i].cedula;   
+            totales.push(pay)
+            
+            }
 
-        }
 
-
-        res.status(201).json({ qty: report[0].totalAmount, msg: report });
+        res.status(201).json({  totales, msg: report });
 
     } catch (e) {
         console.log(e)
