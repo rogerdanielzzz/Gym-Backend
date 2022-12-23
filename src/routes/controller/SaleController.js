@@ -176,7 +176,7 @@ let renovation = async (req, res) => {
             });
 
             let paycheck = await Paidamount.create({
-                amount: element.amount
+                amount: element.ammount
             });
 
             await paycheck.setPayment(payment);
