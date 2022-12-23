@@ -223,7 +223,6 @@ let getSales = async (req, res) => {
 let getPaymentTotal = async (req, res) => {
     let { gymId, year, month, day } = req.body
     let searchParameters = { ...req.body }
-    delete searchParameters.gymId;
 
     try {
         let report = await Payment.findAll({
