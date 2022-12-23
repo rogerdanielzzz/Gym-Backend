@@ -220,6 +220,29 @@ let getSales = async (req, res) => {
 }
 
 
+let getPaymentTotal = async (req, res) => {
+    let { gymId } = req.body
+    try {
+        let report = await Payment.findAll({
+            where: {
+                gymId,
+            },
+            include: {
+                model: Paidamount,
+            },
+
+        })
+
+
+        res.status(201).json({ msg: report });
+
+    } catch (e) {
+        console.log(e)
+        res.status(500).json({ err: e?.msg });
+    }
+}
+
+
 let saleReport = async (req, res) => {
     const { gymId, year, month, day } = req.body;
     const { detailed, range, hour } = req.query
@@ -286,5 +309,6 @@ module.exports = {
     inscription,
     renovation,
     saleReport,
-    getSales
+    getSales,
+    getPaymentTotal
 };
