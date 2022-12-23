@@ -243,11 +243,14 @@ let getPaymentTotal = async (req, res) => {
 
         for (let i = 0; i < report.length; i++) {
             let total = 0
+            console.log(report[i])
             for (let y = 0; y < report[i].paidamounts.length; y++) {
+                
                 total = total + report[i].paidamounts[y].amount
-
+                console.log(total)
             }
             report[i].totalAmount = total
+            console.log(report[i])
 
         }
 
