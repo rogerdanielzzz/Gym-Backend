@@ -239,9 +239,16 @@ let getPaymentTotal = async (req, res) => {
             },
 
         })
+        report.length >0&&report.forEach(payment => {
+            let total= 0
+            payment.paidamounts.forEach(element => {
+                total= element.amount+total
+            });
+            payment.totalAmount= total
+        });
 
 
-        res.status(201).json({ msg: report });
+        res.status(201).json({qty:report.length, msg: report });
 
     } catch (e) {
         console.log(e)
