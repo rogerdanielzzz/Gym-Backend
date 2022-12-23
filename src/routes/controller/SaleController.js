@@ -242,7 +242,7 @@ let getPaymentTotal = async (req, res) => {
         
         report[0].prueba=0
 
-     /*   for (let i = 0; i < report.length; i++) {
+       for (let i = 0; i < report.length; i++) {
             let total = 0
             for (let y = 0; y < report[i].paidamounts.length; y++) {
                 
@@ -251,10 +251,10 @@ let getPaymentTotal = async (req, res) => {
             }
             report[i].totalAmount = total
 
-        }*/
+        }
 
 
-        res.status(201).json({ qty: report[0].prueba, msg: report });
+        res.status(201).json({ qty: report[0].totalAmount, msg: report });
 
     } catch (e) {
         console.log(e)
