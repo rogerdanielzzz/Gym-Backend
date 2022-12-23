@@ -239,7 +239,10 @@ let getPaymentTotal = async (req, res) => {
             },
 
         })
+        console.log("encuentro")
         let report= {...copy}
+
+        console.log("entro for")
 
         for (let i = 0; i < report.length; i++) {
             let total = 0
@@ -253,6 +256,8 @@ let getPaymentTotal = async (req, res) => {
             console.log(report[i])
 
         }
+        console.log("Salir for")
+
 
         res.status(201).json({ qty: report.length, msg: report });
 
