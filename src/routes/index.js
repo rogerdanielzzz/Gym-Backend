@@ -9,7 +9,7 @@ const { createUser, findUserByEmail, userActiveUpdater,singIn} = require('./cont
 const { createGym,findGymByName,findGymByRif } = require('./controller/GymCrud');
 const { createTrainer,getAllTrainers,findTrainerbyId } = require('./controller/TrainerCrud');
 const { createCostumer,getAllCostumers,findCostumerbyId } = require('./controller/CostumerCrud');
-const { inscription, renovation, saleReport} = require('./controller/SaleController');
+const { inscription, renovation, saleReport, getSales} = require('./controller/SaleController');
 const { createPayment, getPayments,softDeletePayment, deletePayment} = require('./controller/PaymentCrud');
 const { createPlan, getPlans} = require('./controller/PlanCrud');
 const { checkInRegister, getCheckins} = require('./controller/CheckinController');
@@ -57,7 +57,7 @@ router.post("/inscription",inscription)
 router.post("/renovation",renovation)
 
 //Sale Report
-router.get("/sales",saleReport)
+router.post("/sales",getSales)
 
 //User auth
 router.post("/signin",singIn )

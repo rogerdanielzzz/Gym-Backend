@@ -193,6 +193,32 @@ let renovation = async (req, res) => {
     }
 };
 
+let getSales = async (req, res) => {
+    let searchParameters = { ...req.body }
+    try {
+        let report = await Sale.findAll({
+            where: searchParameters,
+            include: [
+                {
+                    model: Costumer,
+                    attributes: ["idType", "idNumber", "fullname",]
+                },
+                {
+                    model: Paidamount,
+                    include: Payment
+                },
+            ]
+        })
+
+
+        res.status(201).json({ msg: report });
+
+    } catch (e) {
+        console.log(e)
+        res.status(500).json({ err: e?.msg });
+    }
+}
+
 
 let saleReport = async (req, res) => {
     const { gymId, year, month, day } = req.body;
@@ -259,5 +285,6 @@ let saleReport = async (req, res) => {
 module.exports = {
     inscription,
     renovation,
-    saleReport
+    saleReport,
+    getSales
 };
