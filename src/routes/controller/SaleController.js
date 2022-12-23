@@ -254,7 +254,7 @@ let getPaymentTotal = async (req, res) => {
         }*/
 
 
-        res.status(201).json({ qty: report[0], msg: report });
+        res.status(201).json({ qty: report[0].prueba, msg: report });
 
     } catch (e) {
         console.log(e)
