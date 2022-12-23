@@ -231,6 +231,7 @@ let getPaymentTotal = async (req, res) => {
                 model: Paidamount,
                 include: {
                     model: Sale,
+                    required: true,
                     where: {
                         year,
                         month,
