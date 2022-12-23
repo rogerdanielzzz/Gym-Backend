@@ -240,7 +240,7 @@ let getPaymentTotal = async (req, res) => {
 
         })
         console.log("encuentro")
-        let report= {...copy}
+        let report= [...copy]
 
         console.log("entro for")
 
