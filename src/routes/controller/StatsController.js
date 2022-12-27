@@ -2,10 +2,10 @@ const { Gym, Costumer, Checkin, Sale, Paidamount } = require("../../db.js");
 const { dateFormated, datewithHour, dayAdder } = require("../../utils/utils");
 
 let resumeStat = async (req, res) => {
-    const { gymId } = req.body;
+    const { gymId,dateStr } = req.body;
 
-    let dateG = dateFormated()
-    let newExpire = dayAdder(dateG, 3)
+    //let dateG = dateFormated()
+    let newExpire = dayAdder(dateStr, 3)
 
 
     // let date = new Date();
@@ -51,7 +51,7 @@ let resumeStat = async (req, res) => {
                 total = total + element.mustAmount
             });
 
-            let filtered = costumerArray.filter((el) => el.expire <= newExpire && el.expire >= dateG )
+            let filtered = costumerArray.filter((el) => el.expire <= newExpire && el.expire >= dateStr )
 
 
 
