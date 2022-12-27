@@ -26,6 +26,7 @@ let resumeStat = async (req, res) => {
                     day: dateArr[2],
                 }
             })
+            
 
             let costumerArray = await Costumer.findAll({
                 where: {
@@ -77,7 +78,8 @@ let resumeStat = async (req, res) => {
 
             res.status(201).json(
                 {
-                 //   saleArray,
+                    saleArray,
+                    dateArr,
                  //   costumerArray,
                     customers: costumerArray.length,
                     toExpires: filtered.length,
