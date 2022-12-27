@@ -1,11 +1,12 @@
 const { Gym, Costumer, Checkin, Sale, Paidamount } = require("../../db.js");
-const { dateFormated, datewithHour } = require("../../utils/utils");
+const { dateFormated, datewithHour, dayAdder } = require("../../utils/utils");
 
 let resumeStat = async (req, res) => {
     const { gymId } = req.body;
 
-    let dateGetter = datewithHour()
-    let dateArr = dateGetter.split("-")
+    let dateG = dateGetter()
+    let newExpire = dayAdder(dateG, 3)
+
 
     // let date = new Date();
     // let hour = `${date.getHours()}:${date.getMinutes()}`
@@ -26,6 +27,17 @@ let resumeStat = async (req, res) => {
                     gymId,
                 }
             })
+     /*       await Costumer.update({
+
+                isActive: false,
+            },
+                {
+                    where: {
+
+                        expire: 
+                    }
+                })
+*/
             let checkinArray = await Checkin.findAll({
                 where: {
                     gymId,
@@ -33,13 +45,14 @@ let resumeStat = async (req, res) => {
             })
 
             let total = 0
-            let totalCheckins = 0
 
 
             saleArray.forEach(element => {
-               total= total+ element.mustAmount
+                total = total + element.mustAmount
             });
-        
+
+            let filtered = costumerArray.filter((el) => el.expire <= newExpire && el.expire >= dateG )
+
 
 
             /* if (costumer && gym) {
@@ -56,9 +69,10 @@ let resumeStat = async (req, res) => {
 
             res.status(201).json(
                 {
-                    saleArray, 
-                    costumerArray,
+                 //   saleArray,
+                 //   costumerArray,
                     customers: costumerArray.length,
+                    toExpires: filtered,
                     total,
                     totalCheckins: checkinArray.length,
                 })
