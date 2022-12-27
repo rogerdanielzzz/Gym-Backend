@@ -72,7 +72,7 @@ let resumeStat = async (req, res) => {
                  //   saleArray,
                  //   costumerArray,
                     customers: costumerArray.length,
-                    toExpires: filtered,
+                    toExpires: filtered.length,
                     total,
                     totalCheckins: checkinArray.length,
                 })

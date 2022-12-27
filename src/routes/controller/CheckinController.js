@@ -30,7 +30,7 @@ let checkInRegister = async (req, res) => {
             })
 
             if (costumer && gym) {
-                let acepted = costumer.expire >= dateGetter
+                let acepted = costumer.expire > dateGetter
                 let checkin = await Checkin.create({
                     acepted,
                     year: dateArr[0],
