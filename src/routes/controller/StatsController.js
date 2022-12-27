@@ -21,6 +21,9 @@ let resumeStat = async (req, res) => {
             let saleArray = await Sale.findAll({
                 where: {
                     gymId,
+                    year: dateArr[0],
+                    month: dateArr[1],
+                    day: dateArr[2],
                 }
             })
 
@@ -43,6 +46,9 @@ let resumeStat = async (req, res) => {
             let checkinArray = await Checkin.findAll({
                 where: {
                     gymId,
+                    year: dateArr[0],
+                    month: dateArr[1],
+                    day: dateArr[2],
                 }
             })
 
