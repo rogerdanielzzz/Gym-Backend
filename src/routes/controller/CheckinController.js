@@ -5,6 +5,7 @@ let checkInRegister = async (req, res) => {
     const { idType, idNumber, gymId } = req.body;
 
     let dateGetter = datewithHour()
+    let dateOnly= dateFormated()
     let dateArr = dateGetter.split("-")
 
     // let date = new Date();
@@ -30,7 +31,7 @@ let checkInRegister = async (req, res) => {
             })
 
             if (costumer && gym) {
-                let acepted = costumer.expire >= dateGetter
+                let acepted = costumer.expire >= dateOnly
                 let checkin = await Checkin.create({
                     acepted,
                     year: dateArr[0],
