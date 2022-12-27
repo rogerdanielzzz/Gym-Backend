@@ -13,6 +13,8 @@ const { inscription, renovation, saleReport, getSales, getPaymentTotal} = requir
 const { createPayment, getPayments,softDeletePayment, deletePayment} = require('./controller/PaymentCrud');
 const { createPlan, getPlans} = require('./controller/PlanCrud');
 const { checkInRegister, getCheckins} = require('./controller/CheckinController');
+const { resumeStat} = require('./controller/StatsController');
+
 
 
 
@@ -68,6 +70,9 @@ router.post("/signin",singIn )
 
 router.post("/checkin",checkInRegister )
 router.post("/getcheckin",getCheckins )
+
+// Stats
+router.post("/resume",resumeStat)
 
 
 
