@@ -5,6 +5,8 @@ let resumeStat = async (req, res) => {
     const { gymId,dateStr } = req.body;
 
     //let dateG = dateFormated()
+    let dateArr = dateStr.split("-")
+
     let newExpire = dayAdder(dateStr, 3)
 
 
