@@ -1,4 +1,4 @@
-const { Gym, Costumer, Checkin, Sale } = require("../../db.js");
+const { Gym, Costumer, Checkin, Sale, Paidamount } = require("../../db.js");
 const { dateFormated, datewithHour } = require("../../utils/utils");
 
 let resumeStat = async (req, res) => {
@@ -26,6 +26,21 @@ let resumeStat = async (req, res) => {
                     gymId,
                 }
             })
+            let checkinArray = await Checkin.findAll({
+                where: {
+                    gymId,
+                }
+            })
+
+            let total = 0
+            let totalCheckins = 0
+
+
+            saleArray.forEach(element => {
+               total= total+ element.mustAmount
+            });
+        
+
 
             /* if (costumer && gym) {
                  let acepted = costumer.expire >= dateGetter
@@ -41,7 +56,11 @@ let resumeStat = async (req, res) => {
 
             res.status(201).json(
                 {
-                    saleArray, costumerArray
+                    saleArray, 
+                    costumerArray,
+                    customers: costumerArray.length,
+                    total,
+                    totalCheckins: checkinArray.length,
                 })
 
             /* } else {
