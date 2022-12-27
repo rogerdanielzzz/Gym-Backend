@@ -4,7 +4,7 @@ const { dateFormated, datewithHour, dayAdder } = require("../../utils/utils");
 let resumeStat = async (req, res) => {
     const { gymId } = req.body;
 
-    let dateG = dateGetter()
+    let dateG = dateFormated()
     let newExpire = dayAdder(dateG, 3)
 
 
