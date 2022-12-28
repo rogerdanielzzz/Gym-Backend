@@ -139,10 +139,10 @@ let renovation = async (req, res) => {
                     gymId,
                 },
             });
-            if (plan.durationUnit === "Month") expireToUpdate = monthAdder(dateFormated(), durationQty)
-            else if (plan.durationUnit === "Year") expireToUpdate = yearAdder(dateFormated(), durationQty)
-            else if (plan.durationUnit === "Day") expireToUpdate = dayAdder(dateFormated(), durationQty)
-            else if (plan.durationUnit === "Week") expireToUpdate = weekAdder(dateFormated(), durationQty)
+            if (plan.durationUnit === "Month") expireToUpdate = monthAdder(costumer.expire, durationQty)
+            else if (plan.durationUnit === "Year") expireToUpdate = yearAdder(costumer.expire, durationQty)
+            else if (plan.durationUnit === "Day") expireToUpdate = dayAdder(costumer.expire, durationQty)
+            else if (plan.durationUnit === "Week") expireToUpdate = weekAdder(costumer.expire, durationQty)
 
             await costumer.update(
                 {
