@@ -99,6 +99,10 @@ let singIn = (req, res) => {
         },
         include: {
             model: Gym,
+            required: false,
+            where: {
+                active: true
+            },
             include: [
                 {
                     model: Payment,
