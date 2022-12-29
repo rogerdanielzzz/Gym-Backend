@@ -108,8 +108,22 @@ let findGymByName = (req, res) => {
         res.status(500).json(err);
     });
 }
+
+
+const softDeleteGym = async(req,res)=>{
+    const {gymId}= req.body
+    try {
+        await Gym.update({ active:false }, { where: { id: gymId} })
+        res.status(201).json({ success: "Gym Disabled" });
+    } catch (e) {
+        res.status(404).json({ error: e.message });
+    }
+
+}
+
 module.exports = {
     createGym,
     findGymByName,
-    findGymByRif
+    findGymByRif,
+    softDeleteGym
 }

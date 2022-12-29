@@ -26,12 +26,12 @@ let createUser = (req, res) => {
 
     }).then((user) => {
 
-     /*   let token = jwt.sign({ user: user }, encryptKey, {
-            expiresIn: encryptExpiration
-        });*/
+        /*   let token = jwt.sign({ user: user }, encryptKey, {
+               expiresIn: encryptExpiration
+           });*/
 
-     //   res.status(201).json({ user, token, })
-     res.status(201).json({ msg:" user Created", })
+        //   res.status(201).json({ user, token, })
+        res.status(201).json({ msg: " user Created", })
 
     }).catch(err => {
         res.status(200).json({ err: err });
@@ -50,6 +50,11 @@ let findUserByEmail = (req, res) => {
         },
         include: {
             model: Gym,
+            required: false,
+            where: {
+                active: true
+            },
+
             include: [
                 {
                     model: Payment
@@ -97,9 +102,9 @@ let singIn = (req, res) => {
             include: [
                 {
                     model: Payment,
-                    required:false,
-                    where:{
-                        active:true
+                    required: false,
+                    where: {
+                        active: true
                     }
                 },
                 {

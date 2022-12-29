@@ -15,6 +15,10 @@ module.exports = (sequelize) => {
 				allowNull: false,
 				unique: true,
 			},
+			active:{
+				type: DataTypes.BOOLEAN,
+				defaultValue: true
+			},
 			
 		
 			

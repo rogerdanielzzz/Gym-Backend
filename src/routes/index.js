@@ -6,7 +6,7 @@ const router = Router();
 
 const { validator } = require('./middleware/validatorMid');
 const { createUser, findUserByEmail, userActiveUpdater,singIn} = require('./controller/UserCrud');
-const { createGym,findGymByName,findGymByRif } = require('./controller/GymCrud');
+const { createGym,findGymByName,findGymByRif, softDeleteGym } = require('./controller/GymCrud');
 const { createTrainer,getAllTrainers,findTrainerbyId } = require('./controller/TrainerCrud');
 const { createCostumer,getAllCostumers,findCostumerbyId } = require('./controller/CostumerCrud');
 const { inscription, renovation, saleReport, getSales, getPaymentTotal} = require('./controller/SaleController');
@@ -31,6 +31,7 @@ router.put("/userupdater",userActiveUpdater)
 router.post("/creategym",createGym)
 router.get("/gymname",findGymByName)
 router.get("/gymrif",findGymByRif)
+router.post("/deletegym",softDeleteGym)
 //Payment Crud
 router.post("/addpayment",createPayment )
 router.post("/getpayments",getPayments )
@@ -73,6 +74,7 @@ router.post("/getcheckin",getCheckins )
 
 // Stats
 router.post("/resume",resumeStat)
+
 
 
 
