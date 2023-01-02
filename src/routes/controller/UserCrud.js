@@ -100,7 +100,7 @@ let userUpdater = async (req, res) => {
         if (!emailChecker || emailChecker.id == id) {
             try {
 
-                let modified = await User.update({ user }, { where: { id: id } })
+                let modified = await User.update( user , { where: { id: id } })
                 res.status(201).json({ msg: modified, envio:user });
             } catch (e) {
                 res.status(404).json({ error: e.message });
