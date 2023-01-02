@@ -5,7 +5,7 @@ const router = Router();
 //Midlleware que protege ruta, cuando este definido se usara
 
 const { validator } = require('./middleware/validatorMid');
-const { createUser, findUserByEmail, userActiveUpdater,singIn} = require('./controller/UserCrud');
+const { createUser, findUserByEmail, userActiveUpdater,singIn, userUpdater} = require('./controller/UserCrud');
 const { createGym,findGymByName,findGymByRif, softDeleteGym } = require('./controller/GymCrud');
 const { createTrainer,getAllTrainers,findTrainerbyId } = require('./controller/TrainerCrud');
 const { createCostumer,getAllCostumers,findCostumerbyId } = require('./controller/CostumerCrud');
@@ -26,6 +26,8 @@ const { resumeStat} = require('./controller/StatsController');
 router.post("/signup",createUser )
 router.get("/finduser/:email",findUserByEmail)
 router.put("/userupdater",userActiveUpdater)
+router.put("/updateuser",userUpdater )
+
 
 //Gym Crud
 router.post("/creategym",createGym)

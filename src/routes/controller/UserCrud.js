@@ -88,6 +88,24 @@ let userActiveUpdater = async (req, res) => {
 
 
 }
+
+
+let userUpdater = async (req, res) => {
+    const { id, user } = req.body;
+   
+if (id && user){
+    try {
+
+       let user=  await User.update({ user }, { where: { id: id } })
+        res.status(201).json({ msg: user });
+    } catch (e) {
+        res.status(404).json({ error: e.message });
+    }
+}else res.status(404).json({ error: "Must be send Id and User" });
+
+
+}
+
 let singIn = (req, res) => {
     let { email, password } = req.body;
     let emailLower = email.toLowerCase()
@@ -152,5 +170,6 @@ module.exports = {
     createUser,
     findUserByEmail,
     userActiveUpdater,
-    singIn
+    singIn,
+    userUpdater
 }
