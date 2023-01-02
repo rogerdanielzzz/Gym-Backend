@@ -92,16 +92,15 @@ let userActiveUpdater = async (req, res) => {
 
 let userUpdater = async (req, res) => {
     const { id, user } = req.body;
-    console.log(user)
-
+    let newUser= {...user}
+ newUser.fullname= toCapitalize(user.fullname)
+    newUser.email = user.email.toLowerCase()
     if (id && user) {
-
-        let emailChecker = await User.findOne({ where: { email: user.email } })
+        let emailChecker = await User.findOne({ where: { email: newUser.email } })
         if (!emailChecker || emailChecker.id == id) {
             try {
-
-                let modified = await User.update( user , { where: { id: id } })
-                res.status(201).json({ msg: modified, envio:user });
+                let modified = await User.update( newUser , { where: { id: id } })
+                res.status(201).json({ msg: "User Modified" });
             } catch (e) {
                 res.status(404).json({ error: e.message });
             }
