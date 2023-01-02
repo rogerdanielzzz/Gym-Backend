@@ -96,8 +96,8 @@ let userUpdater = async (req, res) => {
 if (id && user){
     try {
 
-       let user=  await User.update({ user }, { where: { id: id } })
-        res.status(201).json({ msg: user });
+       let modified=  await User.update({ user }, { where: { id: id } })
+        res.status(201).json({ msg: modified });
     } catch (e) {
         res.status(404).json({ error: e.message });
     }
