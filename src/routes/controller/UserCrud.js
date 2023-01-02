@@ -92,16 +92,22 @@ let userActiveUpdater = async (req, res) => {
 
 let userUpdater = async (req, res) => {
     const { id, user } = req.body;
-   
-if (id && user){
-    try {
+    console.log(user)
 
-       let modified=  await User.update({ user }, { where: { id: id } })
-        res.status(201).json({ msg: modified });
-    } catch (e) {
-        res.status(404).json({ error: e.message });
-    }
-}else res.status(404).json({ error: "Must be send Id and User" });
+    if (id && user) {
+
+        let emailChecker = await User.findOne({ where: { email: user.email } })
+        if (!emailChecker || emailChecker.id == id) {
+            try {
+
+                let modified = await User.update({ user }, { where: { id: id } })
+                res.status(201).json({ msg: modified, envio:user });
+            } catch (e) {
+                res.status(404).json({ error: e.message });
+            }
+        } else res.status(404).json({ error: "Email already exist" });
+
+    } else res.status(404).json({ error: "Must be send Id and User" });
 
 
 }
