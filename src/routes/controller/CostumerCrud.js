@@ -91,7 +91,7 @@ let customerUpdater = async (req, res) => {
     newCustomer.idNumber = parseInt(customer.idNumber)
     newCustomer.idTypeUpper = customer.idType.toUpperCase()
     newCustomer.fullname = toCapitalize(customer.fullname)
-    newCustomer.email = user.email?.toLowerCase()
+    newCustomer.email = customer.email?.toLowerCase()
     if (id && customer) {
         let idChecker = await Costumer.findOne({ where: { idNumber: newCustomer.idNumber } })
         if (!idChecker || idChecker.id == id) {
