@@ -8,7 +8,7 @@ const { validator } = require('./middleware/validatorMid');
 const { createUser, findUserByEmail, userActiveUpdater,singIn, userUpdater} = require('./controller/UserCrud');
 const { createGym,findGymByName,findGymByRif, softDeleteGym } = require('./controller/GymCrud');
 const { createTrainer,getAllTrainers,findTrainerbyId } = require('./controller/TrainerCrud');
-const { createCostumer,getAllCostumers,findCostumerbyId } = require('./controller/CostumerCrud');
+const { createCostumer,getAllCostumers,findCostumerbyId,customerUpdater } = require('./controller/CostumerCrud');
 const { inscription, renovation, saleReport, getSales, getPaymentTotal} = require('./controller/SaleController');
 const { createPayment, getPayments,softDeletePayment, deletePayment} = require('./controller/PaymentCrud');
 const { createPlan, getPlans} = require('./controller/PlanCrud');
@@ -56,6 +56,8 @@ router.get("/gettrainers",getAllTrainers)
 router.post("/createcostumer",createCostumer)
 router.post("/findcostumer",findCostumerbyId)
 router.get("/getcostumers/:gymId",getAllCostumers)
+router.put("/updatecustomer",customerUpdater )
+
 
 //Sale Creator
 router.post("/inscription",inscription)

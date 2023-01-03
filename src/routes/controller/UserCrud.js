@@ -104,7 +104,7 @@ let userUpdater = async (req, res) => {
             } catch (e) {
                 res.status(404).json({ error: e.message });
             }
-        } else res.status(404).json({ error: "Email already exist" });
+        } else res.status(203).json({ error: "Email already exist" });
 
     } else res.status(404).json({ error: "Must be send Id and User" });
 

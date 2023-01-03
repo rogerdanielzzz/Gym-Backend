@@ -2,7 +2,7 @@ const { Gym, Costumer } = require("../../db.js");
 const { toCapitalize, dateFormated } = require("../../utils/utils");
 
 let createCostumer = async (req, res) => {
-    const { fullname, idNumber, idType, gymId,birthdate,cellphone, preNumber} = req.body;
+    const { fullname, idNumber, idType, gymId, birthdate, cellphone, preNumber } = req.body;
     let fnameCapitalized = toCapitalize(fullname)
     let idParsed = parseInt(idNumber)
     let idTypeUpper = idType.toUpperCase()
@@ -22,7 +22,7 @@ let createCostumer = async (req, res) => {
             idType: idTypeUpper,
             birthdate,
             expire,
-            cellphone: preNumber+"-"+cellphone
+            cellphone: preNumber + "-" + cellphone
 
         })
 
@@ -82,8 +82,37 @@ let findCostumerbyId = (req, res) => {
         res.status(500).json(err);
     });
 }
+
+
+let customerUpdater = async (req, res) => {
+    const { id, customer } = req.body;
+    let newCustomer = { ...customer }
+
+    newCustomer.idNumber = parseInt(customer.idNumber)
+    newCustomer.idTypeUpper = customer.idType.toUpperCase()
+    newCustomer.fullname = toCapitalize(user.fullname)
+    newCustomer.email = user.email?.toLowerCase()
+    if (id && customer) {
+        let idChecker = await Costumer.findOne({ where: { idNumber: newCustomer.idNumber } })
+        if (!idChecker || idChecker.id == id) {
+            try {
+                await Costumer.update(newCustomer, { where: { id: id } })
+                res.status(201).json({ msg: "Customer Modified" });
+            } catch (e) {
+                res.status(404).json({ error: e.message });
+            }
+        } else res.status(203).json({ error: "IdNumber already exist" });
+
+    } else res.status(404).json({ error: "Must be send Id and Customer" });
+
+
+}
+
+
+
 module.exports = {
     createCostumer,
     getAllCostumers,
-    findCostumerbyId
+    findCostumerbyId,
+    customerUpdater
 }
