@@ -31,7 +31,7 @@ let createUser = (req, res) => {
            });*/
 
         //   res.status(201).json({ user, token, })
-        res.status(201).json({ msg: " user Created", })
+        res.status(201).json({ msg: "user Created", })
 
     }).catch(err => {
         res.status(200).json({ err: err });
