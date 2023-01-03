@@ -88,17 +88,17 @@ let customerUpdater = async (req, res) => {
     const { id, customer } = req.body;
     let newCustomer = { ...customer }
 
-   
-    if (id &&customer&& customer.tipo&& customer.idNumber&& customer.fullname) {
+
+    if (id && customer && customer.tipo && customer.idNumber && customer.fullname) {
         newCustomer.idNumber = parseInt(customer.idNumber)
         newCustomer.idType = customer.tipo?.toUpperCase()
         newCustomer.fullname = toCapitalize(customer.fullname)
-      //  newCustomer.email = customer.email?.toLowerCase()
+        //  newCustomer.email = customer.email?.toLowerCase()
         let idChecker = await Costumer.findOne({ where: { idNumber: newCustomer.idNumber } })
         if (!idChecker || idChecker.id == id) {
             try {
                 await Costumer.update(newCustomer, { where: { id: id } })
-                res.status(201).json({ msg: "Customer Modified" });
+                res.status(201).json({ success: "Customer Modified" });
             } catch (e) {
                 res.status(404).json({ error: e.message });
             }
