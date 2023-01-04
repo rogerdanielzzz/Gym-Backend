@@ -47,6 +47,7 @@ let resumeStat = async (req, res) => {
             let checkinArray = await Checkin.findAll({
                 where: {
                     gymId,
+                    acepted:true,
                     year: dateArr[0],
                     month: dateArr[1],
                     day: dateArr[2],
