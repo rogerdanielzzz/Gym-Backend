@@ -62,7 +62,7 @@ let resumeStat = async (req, res) => {
                 total = total + element.mustAmount
             });
 
-            let filtered = costumerArray.filter((el) => el.expire <= newExpire && el.expire >= dateStr )
+            let filtered = costumerArray.filter((el) => (dateStr<= el.expire) && (el.expire <= newExpire) )
 
 
 
