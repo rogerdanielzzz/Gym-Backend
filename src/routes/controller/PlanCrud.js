@@ -60,6 +60,7 @@ const getPlans= async(req, res)=>{
         let plan = await Plan.findAll({
             where: {
                 gymId,
+                active: true
             }
         })
 
@@ -74,7 +75,20 @@ const getPlans= async(req, res)=>{
 }
 }
 
+
+
+const softDeletePlan = async(req,res)=>{
+    const {planId}= req.body
+    try {
+        await Gym.update({ active:false }, { where: { id: planId} })
+        res.status(201).json({ success: "Gym Disabled" });
+    } catch (e) {
+        res.status(404).json({ error: e.message });
+    }
+
+}
 module.exports = {
     createPlan,
-    getPlans
+    getPlans,
+    softDeletePlan
 }
