@@ -2,16 +2,11 @@ const { Gym, Costumer, Checkin } = require("../../db.js");
 const { dateFormated, datewithHour } = require("../../utils/utils");
 
 let checkInRegister = async (req, res) => {
-    const { idType, idNumber, gymId } = req.body;
+    const { idType, idNumber, gymId, dateFormated, datewithHour } = req.body;
 
-    let dateGetter = datewithHour()
-    let dateOnly= dateFormated()
+    let dateGetter = datewithHour
+    let dateOnly= dateFormated
     let dateArr = dateGetter.split("-")
-
-    // let date = new Date();
-    // let hour = `${date.getHours()}:${date.getMinutes()}`
-
-
     if ((idNumber) || (idType) || (gymId)) {
 
         try {
@@ -78,7 +73,8 @@ let checkInRegister = async (req, res) => {
 }
 
 let getCheckins = async (req, res) => {
-    const { gymId } = req.body;
+    const { gymId, dateFormated } = req.body;
+    let dateArr = dateFormated.split("-")
 
 
     if (gymId) {
@@ -95,6 +91,9 @@ let getCheckins = async (req, res) => {
                 let checkin = await Checkin.findAll({
                     where: {
                         gymId,
+                        day: dateArr[2],
+                        month: dateArr[1],
+                        year: dateArr[0]
 
                     },
                     include: {
