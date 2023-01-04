@@ -31,6 +31,7 @@ let resumeStat = async (req, res) => {
             let costumerArray = await Costumer.findAll({
                 where: {
                     gymId,
+                    show:true
                 }
             })
      /*       await Costumer.update({
