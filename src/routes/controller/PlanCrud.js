@@ -86,12 +86,35 @@ const softDeletePlan = async (req, res) => {
         } catch (e) {
             res.status(404).json({ error: e.message });
         }
-    }else res.status(404).json({ error: "planId must be Sent" });
+    } else res.status(404).json({ error: "planId must be Sent" });
 
+
+}
+
+let planUpdater = async (req, res) => {
+    const { id, plan } = req.body;
+    let newPlan = { ...plan }
+
+
+    if (id && plan.price && plan.durationQty && plan.durationUnit && plan.planName) {
+        newPlan.price = parseInt(plan.price)
+        newPlan.durationQty = parseInt(plan.durationQty)
+        newPlan.planName = toCapitalize(plan.planName)
+        newPlan.durationUnit = toCapitalize(plan.durationUnit)
+
+        try {
+            await Plan.update(newPlan, { where: { id: id } })
+            res.status(201).json({ success: "plan Modified" });
+        } catch (e) {
+            res.status(404).json({ error: e.message });
+        }
+
+    } else res.status(404).json({ error: "Must be send Id and plan" });
 
 }
 module.exports = {
     createPlan,
     getPlans,
-    softDeletePlan
+    softDeletePlan,
+    planUpdater
 }

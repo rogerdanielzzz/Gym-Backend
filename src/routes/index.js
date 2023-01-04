@@ -11,7 +11,7 @@ const { createTrainer,getAllTrainers,findTrainerbyId } = require('./controller/T
 const { createCostumer,getAllCostumers,findCostumerbyId,customerUpdater } = require('./controller/CostumerCrud');
 const { inscription, renovation, saleReport, getSales, getPaymentTotal} = require('./controller/SaleController');
 const { createPayment, getPayments,softDeletePayment, deletePayment} = require('./controller/PaymentCrud');
-const { createPlan, getPlans, softDeletePlan} = require('./controller/PlanCrud');
+const { createPlan, getPlans, softDeletePlan, planUpdater} = require('./controller/PlanCrud');
 const { checkInRegister, getCheckins} = require('./controller/CheckinController');
 const { resumeStat} = require('./controller/StatsController');
 
@@ -46,6 +46,8 @@ router.delete("/harddeletepayment",deletePayment )
 router.post("/addplan",createPlan )
 router.post("/getplans",getPlans )
 router.put("/plandisabler",softDeletePlan )
+router.put("/updateplan",planUpdater )
+
 
 
 

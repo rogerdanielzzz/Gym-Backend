@@ -135,7 +135,11 @@ let singIn = (req, res) => {
                     }
                 },
                 {
-                    model: Plan
+                    model: Plan,
+                    required: false,
+                    where: {
+                        active: true
+                    }
                 },
             ]
         }

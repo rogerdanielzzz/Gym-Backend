@@ -43,6 +43,12 @@ module.exports = (sequelize) => {
 					isEmail: true,
 				},
 			},
+
+			show:{
+				type: DataTypes.BOOLEAN,
+				defaultValue: true,
+			},
+		
 		
 			
 		},

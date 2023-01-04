@@ -44,7 +44,8 @@ let getAllCostumers = async (req, res) => {
             include: {
                 model: Gym,
                 where: {
-                    id: gymId
+                    id: gymId,
+                    show: true
                 },
             }
         })
@@ -109,11 +110,26 @@ let customerUpdater = async (req, res) => {
 
 }
 
+const softDeleteCustomer = async (req, res) => {
+    const { customerId } = req.body
+    if (customerId) {
+        try {
+            await Costumer.update({ show: false }, { where: { id: customerId } })
+            res.status(201).json({ success: "Customer Disabled" });
+        } catch (e) {
+            res.status(404).json({ error: e.message });
+        }
+    } else res.status(404).json({ error: "customerId must be Sent" });
+
+
+}
+
 
 
 module.exports = {
     createCostumer,
     getAllCostumers,
     findCostumerbyId,
-    customerUpdater
+    customerUpdater,
+    softDeleteCustomer
 }
