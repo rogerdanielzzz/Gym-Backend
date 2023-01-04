@@ -27,6 +27,7 @@ let checkInRegister = async (req, res) => {
                     idType,
                     idNumber,
                     gymId,
+                    show:true
                 }
             })
 
