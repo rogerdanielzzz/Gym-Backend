@@ -306,7 +306,13 @@ let getPaymentTotal = async (req, res) => {
                 required: true,
                 include: {
                     model: Sale,
-                    where: searchParameters
+                    where: {
+                        gymId,
+                        year: dateArr[0],
+                        month: dateArr[1],
+                        day: dateArr[2],
+        
+                    }
                 }
             },
 
