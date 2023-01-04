@@ -20,7 +20,7 @@ module.exports = (sequelize) => {
 			},
        
             rate:{
-				type: DataTypes.INTEGER,
+				type: DataTypes.FLOAT,
 				defaultValue: 0,
 
 			},

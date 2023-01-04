@@ -7,7 +7,7 @@ module.exports = (sequelize) => {
          
        
             amount:{
-				type: DataTypes.INTEGER,
+				type: DataTypes.FLOAT,
                 allowNull: false,
                 defaultValue: 0,
 

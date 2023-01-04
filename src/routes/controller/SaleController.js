@@ -29,6 +29,7 @@ let inscription = async (req, res) => {
         // let date = new Date();
         // let hour = `${date.getHours()}:${date.getMinutes()}`
 
+        if (durationQty<1) res.status(201).json({ msg: "la duracion no puede ser menos de 1" });
 
         try {
             let gym = await Gym.findOne({
@@ -123,7 +124,7 @@ let renovation = async (req, res) => {
         let dateArr = dateGetter.split("-")
 
 
-
+        if (durationQty<1) res.status(201).json({ msg: "la duracion no puede ser menos de 1" });
 
         try {
             let gym = await Gym.findOne({
