@@ -75,7 +75,7 @@ let checkInRegister = async (req, res) => {
 let getCheckins = async (req, res) => {
     const { gymId, dateFormated } = req.body;
     let dateArr = dateFormated.split("-")
-
+//pru
 
     if (gymId) {
 
