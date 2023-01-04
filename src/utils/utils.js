@@ -93,6 +93,7 @@ let dayAdder = (string, qty) => {
     });
 
     let formattedDate = dateArr.join("-")
+    console.log(formattedDate +"  esta")
     return formattedDate
 }
 
