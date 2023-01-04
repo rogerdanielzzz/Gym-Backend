@@ -308,10 +308,6 @@ let getPaymentTotal = async (req, res) => {
                     model: Sale,
                     where: {
                         gymId,
-                        year: dateArr[0],
-                        month: dateArr[1],
-                        day: dateArr[2],
-        
                     }
                 }
             },
