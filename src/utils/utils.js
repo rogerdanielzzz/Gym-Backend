@@ -87,10 +87,13 @@ let dayAdder = (string, qty) => {
         dayPerMonth=monthDayQty(dateArr[1],dateArr[0]) 
     }
 
-    dateArr.forEach(el => {
-        el.toString()
-        if (el.length===1) el= "0"+el
-    });
+    for (let i= 0 ; i< dateArr.length; i++){
+        dateArr[i]=dateArr[i].toString()
+        
+            if (dateArr[i].length==1) {
+              dateArr[i]= "0"+dateArr[i]   
+            }
+    }
 
     let formattedDate = dateArr.join("-")
     console.log(formattedDate +"  esta")
