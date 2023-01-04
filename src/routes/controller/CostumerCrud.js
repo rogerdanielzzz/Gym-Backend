@@ -40,12 +40,13 @@ let getAllCostumers = async (req, res) => {
     const { gymId } = req.params;
     try {
         let costumer = await Costumer.findAll({
-
+            where:{
+                show: true
+            },
             include: {
                 model: Gym,
                 where: {
-                    id: gymId,
-                    show: true
+                    id: gymId
                 },
             }
         })
