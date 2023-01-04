@@ -81,7 +81,7 @@ const softDeletePlan = async (req, res) => {
     const { planId } = req.body
     if (planId) {
         try {
-            await Gym.update({ active: false }, { where: { id: planId } })
+            await Plan.update({ active: false }, { where: { id: planId } })
             res.status(201).json({ success: "Plan Disabled" });
         } catch (e) {
             res.status(404).json({ error: e.message });
