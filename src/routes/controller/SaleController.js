@@ -29,7 +29,7 @@ let inscription = async (req, res) => {
         // let date = new Date();
         // let hour = `${date.getHours()}:${date.getMinutes()}`
 
-        if (durationQty<1) res.status(201).json({ msg: "la duracion no puede ser menos de 1" });
+        if (durationQty < 1) res.status(201).json({ msg: "la duracion no puede ser menos de 1" });
 
         try {
             let gym = await Gym.findOne({
@@ -124,7 +124,7 @@ let renovation = async (req, res) => {
         let dateArr = dateGetter.split("-")
 
 
-        if (durationQty<1) res.status(201).json({ msg: "la duracion no puede ser menos de 1" });
+        if (durationQty < 1) res.status(201).json({ msg: "la duracion no puede ser menos de 1" });
 
         try {
             let gym = await Gym.findOne({
@@ -225,61 +225,6 @@ let getSales = async (req, res) => {
     }
 }
 
-
-let getPaymentTotal = async (req, res) => {
-    let { gymId, year, month, day } = req.body
-    let searchParameters = { ...req.body }
-
-    try {
-        let report = await Payment.findAll({
-            where: {
-                gymId,
-            },
-            include: {
-                model: Paidamount,
-                required: true,
-                include: {
-                    model: Sale,
-                    where: searchParameters
-                }
-            },
-
-        })
-
-        let totales = []
-
-        for (let i = 0; i < report.length; i++) {
-            let total = 0
-            for (let y = 0; y < report[i].paidamounts.length; y++) {
-
-                total = total + report[i].paidamounts[y].amount
-                console.log(total)
-            }
-            let pay = {
-                id: report[i].id,
-                name: report[i].name,
-                currency: report[i].currency,
-                totalAmount: total,
-            }
-            if (report[i].banco) pay.banco = report[i].banco;
-            if (report[i].correo) pay.correo = report[i].correo;
-            if (report[i].cuenta) pay.cuenta = report[i].cuenta;
-            if (report[i].telefono) pay.telefono = report[i].telefono;
-            if (report[i].cedula) pay.cedula = report[i].cedula;
-            totales.push(pay)
-
-        }
-
-
-        res.status(201).json({ resume: totales, detailed: report });
-
-    } catch (e) {
-        console.log(e)
-        res.status(500).json({ err: e?.msg });
-    }
-}
-
-
 let saleReport = async (req, res) => {
     const { gymId, year, month, day } = req.body;
     const { detailed, range, hour } = req.query
@@ -339,6 +284,66 @@ let saleReport = async (req, res) => {
     }
 };
 
+
+let getPaymentTotal = async (req, res) => {
+    let { gymId, dateStr } = req.body
+    let dateArr = dateStr.split("-")
+
+
+    let searchParameters = { ...req.body }
+
+    try {
+        let report = await Payment.findAll({
+            where: {
+                gymId,
+                year: dateArr[0],
+                month: dateArr[1],
+                day: dateArr[2],
+
+            },
+            include: {
+                model: Paidamount,
+                required: true,
+                include: {
+                    model: Sale,
+                    where: searchParameters
+                }
+            },
+
+        })
+
+        let totales = []
+
+        for (let i = 0; i < report.length; i++) {
+            let total = 0
+            for (let y = 0; y < report[i].paidamounts.length; y++) {
+
+                total = total + report[i].paidamounts[y].amount
+                console.log(total)
+            }
+            let pay = {
+                id: report[i].id,
+                name: report[i].name,
+                currency: report[i].currency,
+                totalAmount: total,
+            }
+            if (report[i].banco) pay.banco = report[i].banco;
+            if (report[i].correo) pay.correo = report[i].correo;
+            if (report[i].cuenta) pay.cuenta = report[i].cuenta;
+            if (report[i].telefono) pay.telefono = report[i].telefono;
+            if (report[i].cedula) pay.cedula = report[i].cedula;
+            totales.push(pay)
+
+        }
+
+
+        res.status(201).json({ resume: totales, detailed: report });
+
+    } catch (e) {
+        console.log(e)
+        res.status(500).json({ err: e?.msg });
+    }
+}
 
 
 
