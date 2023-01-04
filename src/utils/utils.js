@@ -66,46 +66,45 @@ let monthAdder = (string, monthqty) => {
 
 let dayAdder = (string, qty) => {
 
-    let monthDayQty=(month, year)=> {
+    let monthDayQty = (month, year) => {
         return new Date(year, month, 0).getDate();
     }
     let dateArr = string.split("-");
-   for (let index = 0; index < dateArr.length; index++) {
-    dateArr[index]=dateArr[index]*1;
-    
-   }
-    dateArr[2] = dateArr[2] + qty; //33
-    let dayPerMonth=monthDayQty(dateArr[1],dateArr[0])
-    while (dateArr[2]> dayPerMonth ) {
-        dateArr[2]= dateArr[2]-dayPerMonth
-        dateArr[1]= dateArr[1]+1
-        if (dateArr[1]==13){
-            dateArr[1]=1
-            dateArr[0]= dateArr[0]+1
+    for (let index = 0; index < dateArr.length; index++) {
+        dateArr[index] = dateArr[index] * 1;
 
-        } 
-        dayPerMonth=monthDayQty(dateArr[1],dateArr[0]) 
+    }
+    dateArr[2] = dateArr[2] + qty; //33
+    let dayPerMonth = monthDayQty(dateArr[1], dateArr[0])
+    while (dateArr[2] > dayPerMonth) {
+        dateArr[2] = dateArr[2] - dayPerMonth
+        dateArr[1] = dateArr[1] + 1
+        if (dateArr[1] == 13) {
+            dateArr[1] = 1
+            dateArr[0] = dateArr[0] + 1
+
+        }
+        dayPerMonth = monthDayQty(dateArr[1], dateArr[0])
     }
 
-    for (let i= 0 ; i< dateArr.length; i++){
-        dateArr[i]=dateArr[i].toString()
-        
-            if (dateArr[i].length==1) {
-              dateArr[i]= "0"+dateArr[i]   
-            }
+    for (let i = 0; i < dateArr.length; i++) {
+        dateArr[i] = dateArr[i].toString()
+
+        if (dateArr[i].length == 1) {
+            dateArr[i] = "0" + dateArr[i]
+        }
     }
 
     let formattedDate = dateArr.join("-")
-    console.log(formattedDate +"  esta")
     return formattedDate
 }
 
 
 let weekAdder = (string, qty) => {
 
-    let weeks= qty*7
+    let weeks = qty * 7
 
-    let formattedDate = dayAdder(string,weeks)
+    let formattedDate = dayAdder(string, weeks)
     return formattedDate
 }
 
