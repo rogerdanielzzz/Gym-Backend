@@ -2,32 +2,25 @@ const { Gym, Costumer, Sale, Op, Payment, Paidamount } = require("../../db.js");
 const { dateFormated, monthAdder, datewithHour, yearAdder, dayAdder, weekAdder, toCapitalize } = require("../../utils/utils");
 
 let inscription = async (req, res) => {
-    // const { idNumber, gymId, description, mustAmount, monthsPaid, arrPayment } = req.body;
 
-    const { description, gymId, plan, arrPayment, customer } = req.body
+    const { description, gymId, plan, arrPayment, customer, dateFormated, datewithHour  } = req.body
     const { fullname, idNumber, idType, birthdate, cellphone, preNumber } = customer
     if (description && gymId && plan && arrPayment && customer) {
         let fnameCapitalized = toCapitalize(fullname)
         let idParsed = parseInt(idNumber)
         let idTypeUpper = idType.toUpperCase()
-        // arrPayment= [{id:1, ammount: 20}]
-        // plan {yyy}
-        // arrPayment debe ser un array de objetos con el monto y payment id 
-
         let ammountParsed = parseInt(plan.price);
-        //  let rateParsed = parseInt(rate);
         let durationQty = parseInt(plan.durationQty);
-        let dateGetter = datewithHour()
+        let dateGetter = datewithHour
         let expireToUpdate;
 
-        if (plan.durationUnit === "Month") expireToUpdate = monthAdder(dateFormated(), durationQty)
-        else if (plan.durationUnit === "Year") expireToUpdate = yearAdder(dateFormated(), durationQty)
-        else if (plan.durationUnit === "Day") expireToUpdate = dayAdder(dateFormated(), durationQty)
-        else if (plan.durationUnit === "Week") expireToUpdate = weekAdder(dateFormated(), durationQty)
+        if (plan.durationUnit === "Month") expireToUpdate = monthAdder(dateFormated, durationQty)
+        else if (plan.durationUnit === "Year") expireToUpdate = yearAdder(dateFormated, durationQty)
+        else if (plan.durationUnit === "Day") expireToUpdate = dayAdder(dateFormated, durationQty)
+        else if (plan.durationUnit === "Week") expireToUpdate = weekAdder(dateFormated, durationQty)
 
         let dateArr = dateGetter.split("-")
-        // let date = new Date();
-        // let hour = `${date.getHours()}:${date.getMinutes()}`
+
 
         if (durationQty < 1) res.status(201).json({ msg: "la duracion no puede ser menos de 1" });
 
@@ -49,19 +42,9 @@ let inscription = async (req, res) => {
             })
 
             await costumer.setGym(gym)
-            /*  await costumer.update(
-                  {
-                      expire: expireToUpdate
-                  },
-                  {
-                      where: {
-                          idNumber: idParsed,
-                          gymId,
-                      }
-                  });*/
+
 
             let sale = await Sale.create({
-                //       isPaid: true,
                 description,
                 mustAmount: ammountParsed,
                 //    rate: rateParsed,
@@ -69,7 +52,6 @@ let inscription = async (req, res) => {
                 year: dateArr[0],
                 month: dateArr[1],
                 day: dateArr[2],
-                //      hour: hour,
                 hour: dateArr[3],
 
             });
@@ -109,7 +91,7 @@ let inscription = async (req, res) => {
 let renovation = async (req, res) => {
     // const { idNumber, gymId, description, mustAmount, monthsPaid, arrPayment } = req.body;
     let expireToUpdate
-    const { gymId, plan, arrPayment, customer, description } = req.body
+    const { gymId, plan, arrPayment, customer, description, datewithHour  } = req.body
     const { idNumber, idType } = customer
     if (gymId && plan && arrPayment && customer && description) {
         // arrPayment= [{id:1, ammount: 20}]
@@ -120,7 +102,7 @@ let renovation = async (req, res) => {
         let ammountParsed = parseInt(plan.price);
         //  let rateParsed = parseInt(rate);
         let durationQty = parseInt(plan.durationQty);
-        let dateGetter = datewithHour()
+        let dateGetter = datewithHour
         let dateArr = dateGetter.split("-")
 
 
