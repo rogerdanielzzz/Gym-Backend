@@ -3,7 +3,7 @@ const { dateFormated, monthAdder, datewithHour, yearAdder, dayAdder, weekAdder, 
 
 let inscription = async (req, res) => {
 
-    const { description, gymId, plan, arrPayment, customer, dateFormated, datewithHour  } = req.body
+    const { description, gymId, plan, arrPayment, customer, dateFormated, datewithHour } = req.body
     const { fullname, idNumber, idType, birthdate, cellphone, preNumber } = customer
     if (description && gymId && plan && arrPayment && customer) {
         let fnameCapitalized = toCapitalize(fullname)
@@ -48,7 +48,7 @@ let inscription = async (req, res) => {
                 description,
                 mustAmount: ammountParsed,
                 //    rate: rateParsed,
-                monthsPaid: durationQty,
+                saleDetail: plan.name,
                 year: dateArr[0],
                 month: dateArr[1],
                 day: dateArr[2],
@@ -91,7 +91,7 @@ let inscription = async (req, res) => {
 let renovation = async (req, res) => {
     // const { idNumber, gymId, description, mustAmount, monthsPaid, arrPayment } = req.body;
     let expireToUpdate
-    const { gymId, plan, arrPayment, customer, description, datewithHour  } = req.body
+    const { gymId, plan, arrPayment, customer, description, datewithHour, dateFormated } = req.body
     const { idNumber, idType } = customer
     if (gymId && plan && arrPayment && customer && description) {
         // arrPayment= [{id:1, ammount: 20}]
@@ -122,10 +122,16 @@ let renovation = async (req, res) => {
                     gymId,
                 },
             });
-            if (plan.durationUnit === "Month") expireToUpdate = monthAdder(costumer.expire, durationQty)
-            else if (plan.durationUnit === "Year") expireToUpdate = yearAdder(costumer.expire, durationQty)
-            else if (plan.durationUnit === "Day") expireToUpdate = dayAdder(costumer.expire, durationQty)
-            else if (plan.durationUnit === "Week") expireToUpdate = weekAdder(costumer.expire, durationQty)
+
+            let baseExpire
+            if (costumer.expire < dateFormated) {
+                baseExpire = dateFormated
+            } else baseExpire = costumer.expire
+
+            if (plan.durationUnit === "Month") expireToUpdate = monthAdder(baseExpire, durationQty)
+            else if (plan.durationUnit === "Year") expireToUpdate = yearAdder(baseExpire, durationQty)
+            else if (plan.durationUnit === "Day") expireToUpdate = dayAdder(baseExpire, durationQty)
+            else if (plan.durationUnit === "Week") expireToUpdate = weekAdder(baseExpire, durationQty)
 
             await costumer.update(
                 {
@@ -144,7 +150,7 @@ let renovation = async (req, res) => {
                 description,
                 mustAmount: ammountParsed,
                 //       rate: rateParsed,
-                monthsPaid: durationQty,
+                saleDetail: plan.name,
                 year: dateArr[0],
                 month: dateArr[1],
                 day: dateArr[2],
@@ -153,6 +159,9 @@ let renovation = async (req, res) => {
 
             await sale.setGym(gym);
             await sale.setCostumer(costumer);
+
+
+
 
             arrPayment.forEach(async (element) => {
 
@@ -330,6 +339,66 @@ let getPaymentTotal = async (req, res) => {
         res.status(500).json({ err: e?.msg });
     }
 }
+
+
+
+
+let outCome = async (req, res) => {
+
+    const { detail, gymId,amount,idPaymentToDebt, datewithHour } = req.body
+    if (detail && gymId && amount && idPaymentToDebt && datewithHour ) {
+        let ammountParsed= parseInt(amount)
+        let dateGetter = datewithHour
+        let dateArr = dateGetter.split("-")
+
+
+        try {
+            let gym = await Gym.findOne({
+                where: {
+                    id: gymId,
+                },
+            });
+
+
+            let sale = await Sale.create({
+                description: "Egreso" ,
+                mustAmount: ammountParsed,
+                //    rate: rateParsed,
+                saleDetail: detail,
+                year: dateArr[0],
+                month: dateArr[1],
+                day: dateArr[2],
+                hour: dateArr[3],
+
+            });
+
+            await sale.setGym(gym);
+
+
+                let payment = await Payment.findOne({
+                    where: {
+                        id: idPaymentToDebt,
+                    },
+                });
+
+                let paycheck = await Paidamount.create({
+                    amount: ammountParsed
+                });
+
+                await paycheck.setPayment(payment);
+                await paycheck.setSale(sale);
+
+
+
+
+            res.status(201).json({ sale: sale });
+        } catch (err) {
+            console.log(err)
+            res.status(500).json({ err: err });
+        }
+    } else res.status(201).json({ msg: "Faltan enviar datos" });
+
+};
 
 
 

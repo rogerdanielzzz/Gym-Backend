@@ -4,8 +4,8 @@ module.exports = (sequelize) => {
 	sequelize.define(
 		'sale',
 		{
-            monthsPaid:{
-				type: DataTypes.INTEGER,
+            saleDetail:{
+				type: DataTypes.TEXT,
 				defaultValue: 1,
 			},
             description:{
