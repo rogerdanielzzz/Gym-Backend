@@ -48,7 +48,7 @@ let inscription = async (req, res) => {
                 description,
                 mustAmount: ammountParsed,
                 //    rate: rateParsed,
-                saleDetail: plan.name,
+                saleDetail: plan.planName,
                 year: dateArr[0],
                 month: dateArr[1],
                 day: dateArr[2],
@@ -150,7 +150,7 @@ let renovation = async (req, res) => {
                 description,
                 mustAmount: ammountParsed,
                 //       rate: rateParsed,
-                saleDetail: plan.name,
+                saleDetail: plan.planName,
                 year: dateArr[0],
                 month: dateArr[1],
                 day: dateArr[2],
@@ -345,9 +345,9 @@ let getPaymentTotal = async (req, res) => {
 
 let outCome = async (req, res) => {
 
-    const { detail, gymId,amount,idPaymentToDebt, datewithHour } = req.body
-    if (detail && gymId && amount && idPaymentToDebt && datewithHour ) {
-        let ammountParsed= parseInt(amount)
+    const { detail, gymId, amount, idPaymentToDebt, datewithHour } = req.body
+    if (detail && gymId && amount && idPaymentToDebt && datewithHour) {
+        let ammountParsed = parseInt(amount)
         let dateGetter = datewithHour
         let dateArr = dateGetter.split("-")
 
@@ -361,7 +361,7 @@ let outCome = async (req, res) => {
 
 
             let sale = await Sale.create({
-                description: "Egreso" ,
+                description: "Egreso",
                 mustAmount: ammountParsed,
                 //    rate: rateParsed,
                 saleDetail: detail,
@@ -375,18 +375,18 @@ let outCome = async (req, res) => {
             await sale.setGym(gym);
 
 
-                let payment = await Payment.findOne({
-                    where: {
-                        id: idPaymentToDebt,
-                    },
-                });
+            let payment = await Payment.findOne({
+                where: {
+                    id: idPaymentToDebt,
+                },
+            });
 
-                let paycheck = await Paidamount.create({
-                    amount: ammountParsed
-                });
+            let paycheck = await Paidamount.create({
+                amount: ammountParsed
+            });
 
-                await paycheck.setPayment(payment);
-                await paycheck.setSale(sale);
+            await paycheck.setPayment(payment);
+            await paycheck.setSale(sale);
 
 
 
