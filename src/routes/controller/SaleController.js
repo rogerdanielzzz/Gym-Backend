@@ -407,5 +407,6 @@ module.exports = {
     renovation,
     saleReport,
     getSales,
-    getPaymentTotal
+    getPaymentTotal,
+    outCome
 };
