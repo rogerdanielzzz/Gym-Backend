@@ -72,7 +72,7 @@ let resumeStat = async (req, res) => {
             }
 
 
-            saleArray.forEach(element => {
+        /*    saleArray.forEach(element => {
                 if (element.mustAmount < 0 && element.description == "Egreso") {
                     if (element.paidamount[0].payment.currency == "USD") {
                         totalOutcome.usd = totalOutcome.usd + element.paidamount[0].amount
@@ -94,7 +94,7 @@ let resumeStat = async (req, res) => {
 
 
                 }
-            });
+            });*/
 
             let filtered = costumerArray.filter((el) => (dateStr <= el.expire) && (el.expire <= newExpire))
 
