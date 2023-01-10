@@ -4,14 +4,11 @@ const { dateFormated, datewithHour, dayAdder } = require("../../utils/utils");
 let resumeStat = async (req, res) => {
     const { gymId, dateStr } = req.body;
 
-    //let dateG = dateFormated()
     let dateArr = dateStr.split("-")
 
     let newExpire = dayAdder(dateStr, 3)
 
 
-    // let date = new Date();
-    // let hour = `${date.getHours()}:${date.getMinutes()}`
 
 
     if (gymId) {
@@ -40,17 +37,7 @@ let resumeStat = async (req, res) => {
                     show: true
                 }
             })
-            /*       await Costumer.update({
-       
-                       isActive: false,
-                   },
-                       {
-                           where: {
-       
-                               expire: 
-                           }
-                       })
-       */
+
             let checkinArray = await Checkin.findAll({
                 where: {
                     gymId,
@@ -72,7 +59,7 @@ let resumeStat = async (req, res) => {
             }
 
 
-          saleArray.forEach(element => {
+            saleArray.forEach(element => {
                 if (element.mustAmount < 0 && element.description == "Egreso") {
                     if (element.paidamounts[0].payment.currency == "USD") {
                         totalOutcome.usd = totalOutcome.usd + element.paidamounts[0].amount
@@ -84,7 +71,7 @@ let resumeStat = async (req, res) => {
                 } else {
                     totalIncome.refUSD = totalIncome.refUSD + element.mustAmount
 
-                    element.paidamounts?.forEach(inner=>{
+                    element.paidamounts?.forEach(inner => {
                         if (inner.payment.currency == "USD") {
                             totalIncome.usd = totalIncome.usd + inner.amount
                         } else {
@@ -100,38 +87,15 @@ let resumeStat = async (req, res) => {
 
 
 
-            /* if (costumer && gym) {
-                 let acepted = costumer.expire >= dateGetter
-                 let checkin = await Checkin.create({
-                     acepted,
-                     year: dateArr[0],
-                     month: dateArr[1],
-                     day: dateArr[2],
-                     hour: dateArr[3]
-                 })*/
-
-
-
             res.status(201).json(
                 {
-                    saleArray,
-                    dateArr,
-                    //   costumerArray,
+                    //                 saleArray,
                     customers: costumerArray.length,
                     toExpires: filtered.length,
-                    prueba: filtered,
-                    corte: newExpire,
-                    total: totalIncome,
+                    income: totalIncome,
                     outcome: totalOutcome,
                     totalCheckins: checkinArray.length,
                 })
-
-            /* } else {
-                 res.status(201).json({ msg: "Cliente no Existe" })
- 
-             }*/
-
-
 
 
         } catch (err) {
