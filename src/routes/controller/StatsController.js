@@ -1,4 +1,4 @@
-const { Gym, Costumer, Checkin, Sale, Paidamount } = require("../../db.js");
+const { Gym, Costumer, Checkin, Sale, Paidamount, Payment } = require("../../db.js");
 const { dateFormated, datewithHour, dayAdder } = require("../../utils/utils");
 
 let resumeStat = async (req, res) => {
