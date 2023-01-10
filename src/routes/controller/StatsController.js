@@ -24,7 +24,13 @@ let resumeStat = async (req, res) => {
                     year: dateArr[0],
                     month: dateArr[1],
                     day: dateArr[2],
-                }
+                },
+                include: [
+                    {
+                        model: Paidamount,
+                        include: Payment
+                    },
+                ]
             })
             
 
@@ -55,11 +61,18 @@ let resumeStat = async (req, res) => {
                 }
             })
 
-            let total = 0
+            let totalIncome = 0
+            totalOutcome=
 
 
             saleArray.forEach(element => {
-                total = total + element.mustAmount
+                if (element.mustAmount<0 ){
+                    totalOutcome = totalOutcome + element.mustAmount
+
+                }else {
+                    totalIncome = totalIncome + element.mustAmount
+
+                }
             });
 
             let filtered = costumerArray.filter((el) => (dateStr<= el.expire) && (el.expire <= newExpire) )
@@ -87,7 +100,8 @@ let resumeStat = async (req, res) => {
                     toExpires: filtered.length,
                     prueba: filtered,
                     corte:newExpire,
-                    total,
+                    total: totalIncome,
+                    outcome: totalOutcome,
                     totalCheckins: checkinArray.length,
                 })
 
