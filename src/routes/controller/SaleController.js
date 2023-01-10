@@ -10,7 +10,7 @@ let inscription = async (req, res) => {
         let fnameCapitalized = toCapitalize(fullname)
         let idParsed = parseInt(idNumber)
         let idTypeUpper = idType.toUpperCase()
-        let ammountParsed = parseInt(plan.price);
+        let ammountParsed = parseFloat(plan.price);
         let durationQty = parseInt(plan.durationQty);
         let dateGetter = datewithHour
         let expireToUpdate;
@@ -100,8 +100,7 @@ let renovation = async (req, res) => {
         // arrPayment debe ser un array de objetos con el monto y payment id 
         let rateParsed= parseFloat(rate)
         let idParsed = parseInt(idNumber);
-        let ammountParsed = parseInt(plan.price);
-        //  let rateParsed = parseInt(rate);
+        let ammountParsed = parseFloat(plan.price);
         let durationQty = parseInt(plan.durationQty);
         let dateGetter = datewithHour
         let dateArr = dateGetter.split("-")
