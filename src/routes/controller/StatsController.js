@@ -2,7 +2,7 @@ const { Gym, Costumer, Checkin, Sale, Paidamount, Payment } = require("../../db.
 const { dateFormated, datewithHour, dayAdder } = require("../../utils/utils");
 
 let resumeStat = async (req, res) => {
-    const { gymId,dateStr } = req.body;
+    const { gymId, dateStr } = req.body;
 
     //let dateG = dateFormated()
     let dateArr = dateStr.split("-")
@@ -32,50 +32,71 @@ let resumeStat = async (req, res) => {
                     },
                 ]
             })
-            
+
 
             let costumerArray = await Costumer.findAll({
                 where: {
                     gymId,
-                    show:true
+                    show: true
                 }
             })
-     /*       await Costumer.update({
-
-                isActive: false,
-            },
-                {
-                    where: {
-
-                        expire: 
-                    }
-                })
-*/
+            /*       await Costumer.update({
+       
+                       isActive: false,
+                   },
+                       {
+                           where: {
+       
+                               expire: 
+                           }
+                       })
+       */
             let checkinArray = await Checkin.findAll({
                 where: {
                     gymId,
-                    acepted:true,
+                    acepted: true,
                     year: dateArr[0],
                     month: dateArr[1],
                     day: dateArr[2],
                 }
             })
 
-            let totalIncome = 0
-            totalOutcome=
+            let totalIncome = {
+                refUSD: 0,
+                usd: 0,
+                bs: 0,
+            }
+            let totalOutcome = {
+                bs: 0,
+                usd: 0
+            }
 
 
             saleArray.forEach(element => {
-                if (element.mustAmount<0 ){
-                    totalOutcome = totalOutcome + element.mustAmount
+                if (element.mustAmount < 0 && element.description == "Egreso") {
+                    if (element.paidamount[0].payment.currency == "USD") {
+                        totalOutcome.usd = totalOutcome.usd + element.paidamount[0].amount
+                    } else {
+                        totalOutcome.bs = totalOutcome.bs + element.paidamount[0].amount
+                    }
 
-                }else {
-                    totalIncome = totalIncome + element.mustAmount
+
+                } else {
+                    totalIncome.refUSD = totalIncome.refUSD + element.mustAmount
+
+                    element.paidamount.forEach(inner=>{
+                        if (inner.payment.currency == "USD") {
+                            totalIncome.usd = totalIncome.usd + inner.amount
+                        } else {
+                            totalIncome.bs = totalIncome.bs + inner.amount
+                        }
+                    })
+
 
                 }
             });
 
-            let filtered = costumerArray.filter((el) => (dateStr<= el.expire) && (el.expire <= newExpire) )
+            let filtered = costumerArray.filter((el) => (dateStr <= el.expire) && (el.expire <= newExpire))
 
 
 
@@ -95,11 +116,11 @@ let resumeStat = async (req, res) => {
                 {
                     saleArray,
                     dateArr,
-                 //   costumerArray,
+                    //   costumerArray,
                     customers: costumerArray.length,
                     toExpires: filtered.length,
                     prueba: filtered,
-                    corte:newExpire,
+                    corte: newExpire,
                     total: totalIncome,
                     outcome: totalOutcome,
                     totalCheckins: checkinArray.length,
