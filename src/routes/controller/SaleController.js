@@ -3,9 +3,10 @@ const { dateFormated, monthAdder, datewithHour, yearAdder, dayAdder, weekAdder, 
 
 let inscription = async (req, res) => {
 
-    const { description, gymId, plan, arrPayment, customer, dateFormated, datewithHour } = req.body
+    const { description, gymId, plan, arrPayment, customer, dateFormated, datewithHour, rate } = req.body
     const { fullname, idNumber, idType, birthdate, cellphone, preNumber } = customer
     if (description && gymId && plan && arrPayment && customer) {
+        let rateParsed= parseFloat(rate)
         let fnameCapitalized = toCapitalize(fullname)
         let idParsed = parseInt(idNumber)
         let idTypeUpper = idType.toUpperCase()
@@ -47,7 +48,7 @@ let inscription = async (req, res) => {
             let sale = await Sale.create({
                 description,
                 mustAmount: ammountParsed,
-                //    rate: rateParsed,
+                rate: rateParsed,
                 saleDetail: plan.planName,
                 year: dateArr[0],
                 month: dateArr[1],
@@ -91,13 +92,13 @@ let inscription = async (req, res) => {
 let renovation = async (req, res) => {
     // const { idNumber, gymId, description, mustAmount, monthsPaid, arrPayment } = req.body;
     let expireToUpdate
-    const { gymId, plan, arrPayment, customer, description, datewithHour, dateFormated } = req.body
+    const { gymId, plan, arrPayment, customer, description, datewithHour, dateFormated, rate } = req.body
     const { idNumber, idType } = customer
     if (gymId && plan && arrPayment && customer && description) {
         // arrPayment= [{id:1, ammount: 20}]
         // plan {yyy}
         // arrPayment debe ser un array de objetos con el monto y payment id 
-
+        let rateParsed= parseFloat(rate)
         let idParsed = parseInt(idNumber);
         let ammountParsed = parseInt(plan.price);
         //  let rateParsed = parseInt(rate);
@@ -149,7 +150,7 @@ let renovation = async (req, res) => {
                 //       isPaid: true,
                 description,
                 mustAmount: ammountParsed,
-                //       rate: rateParsed,
+                rate: rateParsed,
                 saleDetail: plan.planName,
                 year: dateArr[0],
                 month: dateArr[1],
