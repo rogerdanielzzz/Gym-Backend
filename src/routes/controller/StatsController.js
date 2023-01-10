@@ -84,7 +84,7 @@ let resumeStat = async (req, res) => {
                 } else {
                     totalIncome.refUSD = totalIncome.refUSD + element.mustAmount
 
-                    element.paidamount.forEach(inner=>{
+                    element.paidamount?.forEach(inner=>{
                         if (inner.payment.currency == "USD") {
                             totalIncome.usd = totalIncome.usd + inner.amount
                         } else {
