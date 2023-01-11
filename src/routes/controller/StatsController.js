@@ -2,9 +2,11 @@ const { Gym, Costumer, Checkin, Sale, Paidamount, Payment } = require("../../db.
 const { dateFormated, datewithHour, dayAdder } = require("../../utils/utils");
 
 let resumeStat = async (req, res) => {
-    const { gymId } = req.body;
+    const { gymId, dateStr } = req.body;
 
-  
+    let dateArr = dateStr.split("-")
+
+    let newExpire = dayAdder(dateStr, 3)
 
 
 
@@ -15,7 +17,10 @@ let resumeStat = async (req, res) => {
 
             let saleArray = await Sale.findAll({
                 where: {
-                    ...req.body
+                    gymId,
+                    year: dateArr[0],
+                    month: dateArr[1],
+                    day: dateArr[2],
                 },
                 include: [
                     {
