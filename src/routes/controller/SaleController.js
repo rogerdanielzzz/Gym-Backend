@@ -280,11 +280,14 @@ let getPaymentTotal = async (req, res) => {
     let { gymId } = req.body
 
 
+    let searchParameters = { ...req.body }
 
     try {
         let report = await Payment.findAll({
             where: {
-               ... req.body,
+                gymId,
+
+
             },
             include: {
                 model: Paidamount,
@@ -292,10 +295,7 @@ let getPaymentTotal = async (req, res) => {
                 include: {
                     model: Sale,
                     where: {
-                        gymId,
-                        year: dateArr[0],
-                        month: dateArr[1],
-                        day: dateArr[2],
+                      ...req.body
 
                     }
                 }
